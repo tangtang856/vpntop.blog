@@ -119,10 +119,9 @@ function processHtmlFiles(files: string[], baseDir: string) {
       return `<link rel="stylesheet" href="${rootPrefix}css/style.css">`;
     });
 
-    // Replace favicon with images/favicon.svg
-    html = html.replace(/<link\b[^>]*?\brel="icon"[^>]*?>/gi, () => {
-      return `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon.svg">`;
-    });
+    // Replace favicon with images/favicon-v2.svg (cache-busting URL)
+    html = html.replace(/<link\b[^>]*?\brel="(icon|shortcut icon|apple-touch-icon)"[^>]*?>/gi, '');
+    html = html.replace('</head>', `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon-v2.svg"><link rel="shortcut icon" href="${rootPrefix}images/favicon-v2.svg"><link rel="apple-touch-icon" href="${rootPrefix}images/favicon-v2.svg"></head>`);
 
     // Convert <script type="module"> to plain <script> for 100% file:// compatibility
     html = html.replace(/<script type="module">/gi, '<script>');
