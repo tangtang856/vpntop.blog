@@ -3,11 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build && tsx scripts/make-relative.ts",
-    "preview": "astro preview",
-    "astro": "astro",
+    "build": "tsx scripts/deploy-static.ts",
     "indexnow": "tsx scripts/indexnow.ts",
     "audit:seo": "tsx scripts/audit-seo.ts",
     "check:links": "tsx scripts/check-links.ts",

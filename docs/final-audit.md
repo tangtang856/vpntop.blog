@@ -4,7 +4,8 @@
 - **网站正式域名**：`https://vpntop.blog`
 - **GitHub 远程仓库**：`https://github.com/tangtang856/vpntop.blog`
 - **Bing 主攻核心关键词**：`机场推荐`、`机场节点`、`性价比机场`、`梯子推荐`、`vpn`、`vpn机场`、`vpn节点`、`vpn推荐`
-- **构建页面总数**：46 个纯静态 SSG HTML 页面
+- **技术架构**：纯原生 HTML5 + 现代化原生 CSS (`css/style.css`)，零外部重型 JS 框架，零打包器依赖，秒开级加载
+- **页面资产**：46 个纯静态标准 HTML 页面，全站严格采用标准相对路径 (./, ../, ../../)
 
 ---
 

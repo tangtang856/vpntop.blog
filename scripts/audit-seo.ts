@@ -6,31 +6,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const DIST_DIR = path.join(process.cwd(), 'dist');
+const ROOT_DIR = process.cwd();
 
-if (!fs.existsSync(DIST_DIR)) {
-  console.error(`错误：dist 目录不存在！请先运行 npm run build 生成静态文件。`);
-  process.exit(1);
-}
-
-let passCount = 0;
-let failCount = 0;
-let totalPages = 0;
-
-function assert(condition: boolean, message: string) {
-  if (condition) {
-    passCount++;
-  } else {
-    console.error(`  ✗ FAIL: ${message}`);
-    failCount++;
-  }
-}
-
-// Find all HTML files
+// Find all HTML files in root and subdirectories (excluding node_modules, .git, dist)
 function getHtmlFiles(dir: string): string[] {
   let results: string[] = [];
   const list = fs.readdirSync(dir, { withFileTypes: true });
   for (const file of list) {
+    if (file.name === 'node_modules' || file.name === '.git' || file.name === 'dist' || file.name === '.astro') {
+      continue;
+    }
     const fullPath = path.join(dir, file.name);
     if (file.isDirectory()) {
       results = results.concat(getHtmlFiles(fullPath));
@@ -41,8 +26,19 @@ function getHtmlFiles(dir: string): string[] {
   return results;
 }
 
-const htmlFiles = getHtmlFiles(DIST_DIR);
-totalPages = htmlFiles.length;
+const htmlFiles = getHtmlFiles(ROOT_DIR);
+let passCount = 0;
+let failCount = 0;
+let totalPages = htmlFiles.length;
+
+function assert(condition: boolean, message: string) {
+  if (condition) {
+    passCount++;
+  } else {
+    console.error(`  ✗ FAIL: ${message}`);
+    failCount++;
+  }
+}
 
 console.log('======================================================');
 console.log(`开始全面 SEO 审计：正在检查 ${totalPages} 个静态 HTML 页面...`);
@@ -51,7 +47,7 @@ console.log('======================================================\n');
 const titlesMap = new Map<string, string>();
 
 for (const filePath of htmlFiles) {
-  const relPath = path.relative(DIST_DIR, filePath);
+  const relPath = path.relative(ROOT_DIR, filePath);
   const is404 = relPath.includes('404');
   const html = fs.readFileSync(filePath, 'utf-8');
 
@@ -130,16 +126,16 @@ for (const filePath of htmlFiles) {
 }
 
 // Check sitemap existence
-const sitemapPath = path.join(DIST_DIR, 'sitemap-index.xml');
-assert(fs.existsSync(sitemapPath), `dist 目录下生成了 sitemap-index.xml`);
+const sitemapPath = path.join(ROOT_DIR, 'sitemap-index.xml');
+assert(fs.existsSync(sitemapPath), `根目录下生成了 sitemap-index.xml`);
 
 // Check robots.txt
-const robotsPath = path.join(DIST_DIR, 'robots.txt');
-assert(fs.existsSync(robotsPath), `dist 目录下生成了 robots.txt`);
+const robotsPath = path.join(ROOT_DIR, 'robots.txt');
+assert(fs.existsSync(robotsPath), `根目录下生成了 robots.txt`);
 
 // Check IndexNow key file
-const indexNowPath = path.join(DIST_DIR, 'b6563b7156944e6fa16b0632b851df22.txt');
-assert(fs.existsSync(indexNowPath), `dist 目录下生成了 IndexNow Key 验证文件`);
+const indexNowPath = path.join(ROOT_DIR, 'b6563b7156944e6fa16b0632b851df22.txt');
+assert(fs.existsSync(indexNowPath), `根目录下生成了 IndexNow Key 验证文件`);
 
 console.log('\n======================================================');
 console.log(`SEO 审计完成！共检查 ${totalPages} 个页面。`);

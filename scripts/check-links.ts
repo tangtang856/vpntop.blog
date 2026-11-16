@@ -5,17 +5,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const DIST_DIR = path.join(process.cwd(), 'dist');
-
-if (!fs.existsSync(DIST_DIR)) {
-  console.error(`错误：dist 目录不存在！请先运行 npm run build。`);
-  process.exit(1);
-}
+const ROOT_DIR = process.cwd();
 
 function getHtmlFiles(dir: string): string[] {
   let results: string[] = [];
   const list = fs.readdirSync(dir, { withFileTypes: true });
   for (const file of list) {
+    if (file.name === 'node_modules' || file.name === '.git' || file.name === 'dist' || file.name === '.astro') {
+      continue;
+    }
     const fullPath = path.join(dir, file.name);
     if (file.isDirectory()) {
       results = results.concat(getHtmlFiles(fullPath));
@@ -26,7 +24,7 @@ function getHtmlFiles(dir: string): string[] {
   return results;
 }
 
-const htmlFiles = getHtmlFiles(DIST_DIR);
+const htmlFiles = getHtmlFiles(ROOT_DIR);
 let passLinks = 0;
 let brokenLinks = 0;
 const checkedUrls = new Set<string>();
@@ -36,7 +34,7 @@ console.log(`开始内部链接连通性检查：扫描 ${htmlFiles.length} 个�
 console.log('======================================================\n');
 
 for (const filePath of htmlFiles) {
-  const relPath = path.relative(DIST_DIR, filePath);
+  const relPath = path.relative(ROOT_DIR, filePath);
   const html = fs.readFileSync(filePath, 'utf-8');
 
   // Remove <script> blocks to avoid checking JS template strings
