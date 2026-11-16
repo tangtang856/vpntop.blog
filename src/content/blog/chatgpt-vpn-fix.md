@@ -47,7 +47,7 @@ featured: false
 在你的代理客户端（如 Clash Verge 或小火箭）中：
 - 避免使用后缀标有 `BGP直连` 或 `非流媒体解锁` 的普通节点。
 - 优先选择标有 `原生IP`、`AI专用`、`住宅解锁` 或新加坡、日本、美国的专线节点。
-- 像本站推荐的 [宽云 Kuanyun](/review/kuanyun/) 与 [银河极速](/review/galaxyspeed/)，其核心落地机房专门配备了住宅 IP 轮换池，大幅降低被 OpenAI 风控的概率。
+- 像本站推荐的 [隐形人](/review/yinxingren/) 与 [微风网络 Breezenet](/review/breezenet/)，其核心落地机房专门配备了住宅 IP 轮换池，大幅降低被 OpenAI 风控的概率。
 
 ### 第三步：检查并关闭 WebRTC 真实 IP 泄漏
 在 Chrome 商店搜索安装开源插件 `WebRTC Control` 或在设置中禁用 WebRTC UDP 暴露，防止浏览器底层私下泄露大陆真实网络环境。

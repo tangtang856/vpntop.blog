@@ -7,7 +7,7 @@ updateDate: "2026-02-15"
 platform: "ios"
 author: "VPNTOP 教程组"
 tags: ["iOS", "Shadowrocket", "小火箭", "iPhone科学上网", "苹果客户端"]
-recommendedAirports: ["paofu", "kuanyun", "galaxyspeed"]
+recommendedAirports: ["yinxingren", "breezenet", "muguang"]
 featured: true
 ---
 
@@ -25,7 +25,7 @@ featured: true
 小火箭在大陆地区的 App Store 已经下架。你必须准备一个 **美区、港区或台区** 的 Apple ID。
 
 - **获取途径 1（推荐）**：自行注册美区 Apple ID（无需信用卡，可使用免税州账单地址并充值苹果礼品卡购买）。
-- **获取途径 2**：部分老牌机场（如 [泡芙云](/review/paofu/) 等）会在用户后台或年付套餐中免费提供共享的美区 Apple ID 或兑换协助。
+- **获取途径 2**：部分优质机场（如 [隐形人](/review/yinxingren/)、[微风网络](/review/breezenet/) 等）会在用户后台或年付套餐中提供快捷协助与详尽图文指引。
 
 ### 正确的登录姿势（重要警告）：
 1. 打开 iPhone 自带的 **App Store** 软件。

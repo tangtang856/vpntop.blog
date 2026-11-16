@@ -7,7 +7,7 @@ updateDate: "2026-02-15"
 platform: "router"
 author: "VPNTOP 教程组"
 tags: ["OpenWrt", "软路由", "OpenClash", "透明代理", "家庭网关"]
-recommendedAirports: ["kuanyun", "paofu", "fycloud"]
+recommendedAirports: ["breezenet", "yinxingren", "flashleap"]
 featured: false
 ---
 

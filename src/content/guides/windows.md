@@ -7,7 +7,7 @@ updateDate: "2026-02-15"
 platform: "windows"
 author: "VPNTOP 教程组"
 tags: ["Windows", "Clash Verge", "Sing-box", "客户端教程", "TUN模式"]
-recommendedAirports: ["kuanyun", "fycloud", "paofu"]
+recommendedAirports: ["breezenet", "yinxingren", "muguang"]
 featured: true
 ---
 

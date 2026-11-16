@@ -25,6 +25,12 @@ const FOLDERS = [
   'disclaimer'
 ];
 
+function removeDirRecursive(dir: string) {
+  if (fs.existsSync(dir)) {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function copyDirRecursive(src: string, dest: string) {
   if (!fs.existsSync(src)) return;
   if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
@@ -40,7 +46,13 @@ function copyDirRecursive(src: string, dest: string) {
   }
 }
 
-// 1. Copy folders
+// 0. Clean old target directories
+FOLDERS.forEach((folder) => {
+  const target = path.join(ROOT_DIR, folder);
+  removeDirRecursive(target);
+});
+
+// 1. Copy folders from dist
 FOLDERS.forEach((folder) => {
   const src = path.join(DIST_DIR, folder);
   const dest = path.join(ROOT_DIR, folder);
@@ -48,7 +60,7 @@ FOLDERS.forEach((folder) => {
 });
 
 // 2. Copy root files
-['index.html', '404.html', 'sitemap-index.xml', 'sitemap-0.xml'].forEach((file) => {
+['index.html', '404.html', 'sitemap-index.xml', 'sitemap-0.xml', 'robots.txt'].forEach((file) => {
   const src = path.join(DIST_DIR, file);
   const dest = path.join(ROOT_DIR, file);
   if (fs.existsSync(src)) {
@@ -56,14 +68,14 @@ FOLDERS.forEach((folder) => {
   }
 });
 
-// Also create sitemap.xml pointing to sitemap-index.xml or copy
+// Copy sitemap.xml
 if (fs.existsSync(path.join(ROOT_DIR, 'sitemap-index.xml'))) {
   fs.copyFileSync(path.join(ROOT_DIR, 'sitemap-index.xml'), path.join(ROOT_DIR, 'sitemap.xml'));
 }
 
-console.log('[deploy-static] 已完成纯 HTML 文件结构迁移至根目录。');
+console.log('[deploy-static] 已完成纯 HTML 文件结构清理与全新迁移至根目录。');
 
-// 3. Process every HTML file to strictly use css/style.css and images/
+// 3. Process every HTML file in root
 function getAllHtml(dir: string): string[] {
   let res: string[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -82,7 +94,7 @@ function getAllHtml(dir: string): string[] {
 }
 
 const htmlFiles = getAllHtml(ROOT_DIR);
-console.log(`[deploy-static] 正在注入原生 CSS 与纯原生相对路径: ${htmlFiles.length} 个页面...`);
+console.log(`[deploy-static] 正在注入原生 CSS、标准相对路径与无 CORS 脚本: ${htmlFiles.length} 个页面...`);
 
 for (const file of htmlFiles) {
   const relPath = path.relative(ROOT_DIR, file).replace(/\\/g, '/');
@@ -100,6 +112,9 @@ for (const file of htmlFiles) {
   html = html.replace(/<link\b[^>]*?\brel="icon"[^>]*?>/gi, () => {
     return `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon.svg">`;
   });
+
+  // Convert <script type="module"> to plain <script> for 100% file:// compatibility
+  html = html.replace(/<script type="module">/gi, '<script>');
 
   // Ensure generator tag reflects native static HTML
   html = html.replace(/<meta name="generator"[^>]*?>/gi, '<meta name="generator" content="Vanilla HTML5 + Native CSS">');

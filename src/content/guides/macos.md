@@ -7,7 +7,7 @@ updateDate: "2026-02-15"
 platform: "macos"
 author: "VPNTOP 教程组"
 tags: ["macOS", "Clash Verge", "Surge", "Mac电脑", "客户端教程"]
-recommendedAirports: ["kuanyun", "paofu", "galaxyspeed"]
+recommendedAirports: ["breezenet", "yinxingren", "wavenet"]
 featured: false
 ---
 

@@ -7,7 +7,7 @@ updateDate: "2026-02-15"
 platform: "android"
 author: "VPNTOP 教程组"
 tags: ["Android", "v2rayNG", "Clash Meta", "手机翻墙", "安卓教程"]
-recommendedAirports: ["fycloud", "kuanyun", "galaxyspeed"]
+recommendedAirports: ["breezenet", "yinxingren", "feimaoyun"]
 featured: true
 ---
 
