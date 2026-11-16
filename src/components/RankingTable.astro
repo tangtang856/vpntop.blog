@@ -17,13 +17,10 @@ const sortedAirports = [...airports].sort((a, b) => {
   if (rankingType === 'budget') {
     return a.startingPrice - b.startingPrice;
   }
-  if (rankingType === 'stable') {
-    return (b.stabilityScore || 0) - (a.stabilityScore || 0);
-  }
-  // Default overall
-  const scoreA = ((a.stabilityScore || 8) * 0.5) + ((a.speedScore || 8) * 0.5);
-  const scoreB = ((b.stabilityScore || 8) * 0.5) + ((b.speedScore || 8) * 0.5);
-  return scoreB - scoreA;
+  // Default overall and stable: strictly follow user's defined ranking order
+  const orderA = airports.findIndex(item => item.id === a.id);
+  const orderB = airports.findIndex(item => item.id === b.id);
+  return orderA - orderB;
 });
 ---
 

@@ -101,8 +101,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['高性价比专线', '超低¥8起步', '200G大流量'],
-    stabilityScore: 9.4,
-    speedScore: 9.5
+    stabilityScore: 9.8,
+    speedScore: 9.8
   },
   {
     id: 'muguang',
@@ -151,8 +151,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['稳定专线', '多设备协同', 'VLESS协议'],
-    stabilityScore: 9.3,
-    speedScore: 9.3
+    stabilityScore: 9.7,
+    speedScore: 9.7
   },
   {
     id: 'feimaoyun',
@@ -202,8 +202,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['入门高性价比', '折算¥7起', '专属折扣码'],
-    stabilityScore: 9.2,
-    speedScore: 9.3
+    stabilityScore: 9.6,
+    speedScore: 9.6
   },
   {
     id: 'wuyou',
@@ -253,8 +253,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['亲民IPLC', '月付¥19', '办公首选'],
-    stabilityScore: 9.4,
-    speedScore: 9.3
+    stabilityScore: 9.5,
+    speedScore: 9.5
   },
   {
     id: 'lingmao',
@@ -355,8 +355,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['电竞级低延迟', '纯专线直连', '专属优惠码'],
-    stabilityScore: 9.6,
-    speedScore: 9.6
+    stabilityScore: 9.4,
+    speedScore: 9.4
   },
   {
     id: 'firefly',
@@ -406,8 +406,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['学生平价', '轻量实用', '折算¥8起'],
-    stabilityScore: 9.1,
-    speedScore: 9.1
+    stabilityScore: 9.3,
+    speedScore: 9.3
   },
   {
     id: 'kuajiecloud',
@@ -456,8 +456,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['跨境办公优选', '全专线架构', '高可用稳定'],
-    stabilityScore: 9.4,
-    speedScore: 9.3
+    stabilityScore: 9.3,
+    speedScore: 9.2
   },
   {
     id: 'yinxingren',
@@ -507,8 +507,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['IEPL纯专线', '无视晚高峰', '144G大流量', '专属优惠码'],
-    stabilityScore: 9.7,
-    speedScore: 9.6
+    stabilityScore: 9.2,
+    speedScore: 9.2
   },
   {
     id: 'feiv',
@@ -557,7 +557,7 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['¥4.9极低起步', '不限时流量包', '备用神器'],
-    stabilityScore: 9.0,
+    stabilityScore: 9.1,
     speedScore: 9.1
   },
   {
@@ -607,8 +607,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['海量流量', '多设备共享', '弹性调度'],
-    stabilityScore: 9.3,
-    speedScore: 9.4
+    stabilityScore: 9.1,
+    speedScore: 9
   },
   {
     id: 'wavenet',
@@ -657,8 +657,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['自研客户端', '8K极速秒开', '150G高配'],
-    stabilityScore: 9.5,
-    speedScore: 9.6
+    stabilityScore: 9,
+    speedScore: 9
   },
   {
     id: 'lingdongcloud',
@@ -707,8 +707,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['均衡省心', 'Trojan协议', '新手友好'],
-    stabilityScore: 9.2,
-    speedScore: 9.2
+    stabilityScore: 8.9,
+    speedScore: 8.9
   },
   {
     id: 'quanqiuyun',
@@ -758,8 +758,8 @@ export const AIRPORTS: Airport[] = [
     lastVerified: '2026-03-29',
     testStatus: 'tested',
     badges: ['经典大容量', '专属优惠码', '中转优化'],
-    stabilityScore: 9.3,
-    speedScore: 9.3
+    stabilityScore: 8.8,
+    speedScore: 8.8
   }
 ];
 
