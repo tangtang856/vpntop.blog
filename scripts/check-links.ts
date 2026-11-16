@@ -48,54 +48,43 @@ for (const filePath of htmlFiles) {
   while ((match = hrefRegex.exec(cleanHtml)) !== null) {
     let link = match[1];
 
-    // Filter for internal links
-    let internalPath: string | null = null;
-    if (link.startsWith('/')) {
-      internalPath = link;
-    } else if (link.startsWith('https://vpntop.blog/')) {
-      internalPath = link.replace('https://vpntop.blog', '');
+    // Filter out external URLs and anchors
+    if (
+      link.startsWith('http://') ||
+      link.startsWith('https://') ||
+      link.startsWith('//') ||
+      link.startsWith('#') ||
+      link.startsWith('mailto:') ||
+      link.startsWith('javascript:')
+    ) {
+      continue;
     }
 
-    if (internalPath) {
-      if (checkedUrls.has(internalPath)) {
-        continue;
+    // Key user requirement check: no root-absolute paths starting with /
+    if (link.startsWith('/')) {
+      console.error(`  ✗ VIOLATION: 在 ${relPath} 中发现以 / 开头的绝对路径链接: ${link}`);
+      brokenLinks++;
+      continue;
+    }
+
+    const fileDir = path.dirname(filePath);
+    const cleanLink = link.split('?')[0];
+    const targetFile = path.resolve(fileDir, cleanLink);
+
+    let exists = false;
+    if (fs.existsSync(targetFile)) {
+      const stat = fs.statSync(targetFile);
+      if (stat.isFile()) exists = true;
+      else if (stat.isDirectory()) {
+        if (fs.existsSync(path.join(targetFile, 'index.html'))) exists = true;
       }
-      checkedUrls.add(internalPath);
+    }
 
-      // Resolve file target in dist
-      // Strip query parameters
-      const cleanPath = internalPath.split('?')[0];
-
-      // Targets can be:
-      // / -> dist/index.html
-      // /foo/ -> dist/foo/index.html or dist/foo.html
-      // /sitemap-index.xml -> dist/sitemap-index.xml
-      // /favicon.svg -> dist/favicon.svg
-      let targetFile = path.join(DIST_DIR, cleanPath);
-      let exists = false;
-
-      if (fs.existsSync(targetFile)) {
-        const stat = fs.statSync(targetFile);
-        if (stat.isFile()) exists = true;
-        else if (stat.isDirectory()) {
-          const indexHtml = path.join(targetFile, 'index.html');
-          if (fs.existsSync(indexHtml)) exists = true;
-        }
-      } else {
-        // Try appending index.html or .html
-        if (fs.existsSync(path.join(targetFile, 'index.html'))) {
-          exists = true;
-        } else if (fs.existsSync(`${targetFile}.html`)) {
-          exists = true;
-        }
-      }
-
-      if (exists) {
-        passLinks++;
-      } else {
-        console.error(`  ✗ BROKEN LINK: 在 ${relPath} 中发现失效链接: ${internalPath}`);
-        brokenLinks++;
-      }
+    if (exists) {
+      passLinks++;
+    } else {
+      console.error(`  ✗ BROKEN RELATIVE LINK: 在 ${relPath} 中发现相对链接无法在本地磁盘解析: ${link} -> ${targetFile}`);
+      brokenLinks++;
     }
   }
 }

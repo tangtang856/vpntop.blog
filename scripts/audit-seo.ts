@@ -112,7 +112,20 @@ for (const filePath of htmlFiles) {
     }
   }
 
-  // 7. No localhost in links
+  // 7. Strict Relative Paths Audit (User requirement: no root-absolute /... for assets and internal links)
+  const rootAssetMatch = html.match(/<(?:link|script|img)\b[^>]*?\b(?:href|src)="\/[^"]*"/gi);
+  if (rootAssetMatch) {
+    // Filter out canonical with full https://
+    const invalidAssets = rootAssetMatch.filter(m => !m.includes('rel="canonical"') && !m.includes('href="//'));
+    assert(invalidAssets.length === 0, `${relPath} 存在以 / 开头的静态资源路径: ${invalidAssets.slice(0, 2).join(', ')}`);
+  } else {
+    passCount++;
+  }
+
+  const rootAnchorMatch = html.match(/<a\b[^>]*?\bhref="\/[^"]*"/gi);
+  assert(!rootAnchorMatch, `${relPath} 严禁存在以 / 开头的站内跳转链接 (当前违规: ${rootAnchorMatch ? rootAnchorMatch.slice(0, 2).join(', ') : 0})`);
+
+  // 8. No localhost in links
   assert(!html.includes('http://localhost:'), `${relPath} 不得包含任何硬编码 localhost 链接`);
 }
 

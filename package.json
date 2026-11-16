@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && tsx scripts/make-relative.ts",
     "preview": "astro preview",
     "astro": "astro",
     "indexnow": "tsx scripts/indexnow.ts",

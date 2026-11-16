@@ -20,7 +20,8 @@
 | **标题层级 (Headings)** | 多个 H1 冲突 | `scripts/audit-seo.ts` 检查 `<h1>` 标签数量 | 全站所有页面严格且仅有 1 个 H1 | **PASS** |
 | **规范链接 (Canonical)** | 错误 Canonical | `scripts/audit-seo.ts` 检查是否以 `https://vpntop.blog` 开头并遵循尾部斜杠规范 | 46 个页面 Canonical 全部正确 | **PASS** |
 | **爬虫协议 (Robots)** | 错误 Robots 声明 | `scripts/audit-seo.ts` 检查 meta robots 与 `public/robots.txt` | 正式页面 index, follow；404 noindex | **PASS** |
-| **内部链接 (Internal Links)**| 失效内链 (404) | `scripts/check-links.ts` 提取并解析所有页面内链 | 扫描 41 个不同内链路径，0 个死链 | **PASS** |
+| **内部链接 (Internal Links)**| 失效内链 (404) | `scripts/check-links.ts` 提取并解析所有页面内链 | 扫描 3562 处站内链接，0 个死链 | **PASS** |
+| **路径规范 (Relative Paths)** | 全站严格标准相对路径 (无 / 根路径) | `scripts/audit-seo.ts` 深度扫描所有 `<link>`/`<script>`/`<img>`/`<a>` | 100% 相对路径 (./, ../, ../../)，支持双击本地浏览 | **PASS** |
 | **内容完整度** | 空白页面与字数检查 | `scripts/validate-content.ts` 检查文章长度 | 15 篇内容字数均 > 800 字，无空白页 | **PASS** |
 | **模板与代码** | 未替换模板变量 | `scripts/validate-content.ts` 扫描 `{{...}}` | 扫描全部源码文件，0 个未替换变量 | **PASS** |
 | **网站地图 (Sitemap)** | 错误 Sitemap | 检查 `dist/sitemap-index.xml` | 自动生成，排除 404，仅含正式 URL | **PASS** |
