@@ -122,6 +122,36 @@ footer.bg-slate-900,
   background-color: #0f172a !important;
 }
 
+/* Brand Logo Strict Sizing Constraints */
+.w-10 { width: 2.5rem !important; }
+.h-10 { height: 2.5rem !important; }
+.site-logo {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+}
+.site-logo svg {
+  width: 36px !important;
+  height: 36px !important;
+  display: block !important;
+}
+.site-footer-logo {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+}
+.site-footer-logo svg {
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
+}
+
 /* Animated Radiant Rising Red Sun Aura */
 .global-ink-sun {
   position: absolute;
