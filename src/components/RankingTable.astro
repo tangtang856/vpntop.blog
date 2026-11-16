@@ -1,0 +1,133 @@
+---
+import type { Airport } from '../data/airports';
+import { getLowestPerGbCost } from '../data/airports';
+
+interface Props {
+  airports: Airport[];
+  rankingType?: 'overall' | 'value' | 'budget' | 'stable';
+}
+
+const { airports, rankingType = 'overall' } = Astro.props;
+
+// Sort based on type
+const sortedAirports = [...airports].sort((a, b) => {
+  if (rankingType === 'value') {
+    return getLowestPerGbCost(a) - getLowestPerGbCost(b);
+  }
+  if (rankingType === 'budget') {
+    return a.startingPrice - b.startingPrice;
+  }
+  if (rankingType === 'stable') {
+    return (b.stabilityScore || 0) - (a.stabilityScore || 0);
+  }
+  // Default overall
+  const scoreA = ((a.stabilityScore || 8) * 0.5) + ((a.speedScore || 8) * 0.5);
+  const scoreB = ((b.stabilityScore || 8) * 0.5) + ((b.speedScore || 8) * 0.5);
+  return scoreB - scoreA;
+});
+---
+
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse min-w-[760px]">
+      <thead>
+        <tr class="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <th scope="col" class="py-3.5 px-4 w-16 text-center">排名</th>
+          <th scope="col" class="py-3.5 px-4">品牌名称与线路</th>
+          <th scope="col" class="py-3.5 px-4">起步价格</th>
+          <th scope="col" class="py-3.5 px-4">套餐流量</th>
+          <th scope="col" class="py-3.5 px-4">单GB参考成本</th>
+          <th scope="col" class="py-3.5 px-4">核心优势 / 适合人群</th>
+          <th scope="col" class="py-3.5 px-4 text-center w-28">操作</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 text-sm">
+        {sortedAirports.map((airport, index) => {
+          const rank = index + 1;
+          const lowestPerGb = getLowestPerGbCost(airport);
+          const firstPlan = airport.plans[0];
+
+          return (
+            <tr class="hover:bg-slate-50/80 transition-colors">
+              <!-- Rank -->
+              <td class="py-4 px-4 text-center">
+                {rank === 1 ? (
+                  <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 text-white font-extrabold text-sm shadow-sm">
+                    1
+                  </span>
+                ) : rank === 2 ? (
+                  <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-extrabold text-sm">
+                    2
+                  </span>
+                ) : rank === 3 ? (
+                  <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-700/70 text-white font-extrabold text-sm">
+                    3
+                  </span>
+                ) : (
+                  <span class="text-slate-400 font-semibold">{rank}</span>
+                )}
+              </td>
+
+              <!-- Brand & Line -->
+              <td class="py-4 px-4">
+                <div class="font-bold text-slate-900">
+                  <a href={`/review/${airport.slug}/`} class="hover:text-brand-600 transition-colors">
+                    {airport.name}
+                  </a>
+                </div>
+                <div class="flex items-center gap-1.5 mt-1">
+                  <span class="text-xs px-2 py-0.5 rounded bg-brand-50 text-brand-700 font-medium">
+                    {airport.lineType}
+                  </span>
+                  <span class="text-xs text-slate-400">
+                    {airport.protocols[0]}
+                  </span>
+                </div>
+              </td>
+
+              <!-- Price -->
+              <td class="py-4 px-4 whitespace-nowrap">
+                <div class="font-bold text-brand-600 text-base">
+                  ¥{airport.startingPrice}
+                  <span class="text-xs font-normal text-slate-500">/月起</span>
+                </div>
+              </td>
+
+              <!-- Traffic -->
+              <td class="py-4 px-4 whitespace-nowrap text-slate-700 font-medium">
+                {firstPlan ? `${firstPlan.trafficGb} GB / 月` : '按量计费'}
+              </td>
+
+              <!-- Per GB -->
+              <td class="py-4 px-4 whitespace-nowrap">
+                <span class="text-xs font-mono font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                  {lowestPerGb > 0 ? `¥${lowestPerGb.toFixed(3)}/GB` : '按套餐'}
+                </span>
+              </td>
+
+              <!-- Advantage & Audience -->
+              <td class="py-4 px-4 max-w-xs">
+                <p class="text-xs text-slate-600 line-clamp-1">
+                  {airport.advantages[0]}
+                </p>
+                <div class="text-[11px] text-slate-400 mt-1 truncate">
+                  适合：{airport.suitableFor.join('、')}
+                </div>
+              </td>
+
+              <!-- Action -->
+              <td class="py-4 px-4 text-center whitespace-nowrap">
+                <a
+                  href={`/review/${airport.slug}/`}
+                  class="inline-block px-3 py-1.5 bg-brand-50 hover:bg-brand-600 hover:text-white text-brand-700 text-xs font-semibold rounded-lg transition-colors border border-brand-200 hover:border-transparent"
+                >
+                  详情与评测
+                </a>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>

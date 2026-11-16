@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { SITE } from '../site.config';
+---
+
+<BaseLayout
+  title={`隐私政策 - ${SITE.name}`}
+  description="VPNTOP 隐私政策说明：我们重视访问者隐私，说明关于日志记录、Cookie使用及第三方链接重定向的详细政策。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb items={[{ label: '隐私政策' }]} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm max-w-prose mx-auto space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+          隐私权政策 (Privacy Policy)
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          生效日期：2026年1月1日
+        </p>
+      </div>
+
+      <div class="prose prose-slate max-w-none text-slate-600 space-y-4 text-sm sm:text-base leading-relaxed">
+        <p>
+          欢迎访问 <strong>VPNTOP.blog</strong>（以下统称为“本站”）。本站高度重视用户隐私权。本隐私权政策旨在向您说明我们在您访问本站时可能收集的信息以及我们如何保护这些信息。
+        </p>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">一、我们不收集的信息</h2>
+        <p>
+          本站是一个以静态资讯、评测报告与客户端技术教程为主的公开网站。我们：
+        </p>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>不强制要求注册账号</strong>：您无需提供真实姓名、手机号、家庭住址或社交账号即可自由查阅全站所有内容；</li>
+          <li><strong>不存储敏感支付信息</strong>：本站不直接销售任何网络套餐或收取订阅费用，所有交易行为均发生于独立第三方服务商官方网站；</li>
+          <li><strong>不追踪与售卖用户私人轨迹</strong>。</li>
+        </ul>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">二、基础访问日志与分析</h2>
+        <p>
+          与绝大多数公共网站一样，当您访问本站时，托管服务器（如 Cloudflare Pages）的 Web 服务器会自动记录标准的网络请求信息，包括但不限于：您的 IP 地址概要、浏览器类型、操作系统、访问时间以及您在站内请求的具体页面。此类数据仅用于抵御恶意网络攻击（如 DDoS、垃圾爬虫扫描）以及分析整站的受众群体偏好。
+        </p>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">三、Cookie 与本地存储</h2>
+        <p>
+          本站可能使用少量轻量的 Cookie 或本地存储（LocalStorage）用于维持您的客户端界面偏好（例如：横向对比工具中您刚刚选中的机场项目缓存、深色/浅色模式记忆）。这些数据完全保存在您的本地浏览器中，我们不会将其上传至远程数据库。
+        </p>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">四、第三方网站外链</h2>
+        <p>
+          本站包含跳转至第三方机场服务商官方网站的外部超链接。当您点击这些链接离开本站后，第三方网站的隐私权政策与数据收集实践将不受本站控制，请务必审阅目标网站的隐私条款。
+        </p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

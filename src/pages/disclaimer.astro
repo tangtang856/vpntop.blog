@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { SITE } from '../site.config';
+---
+
+<BaseLayout
+  title={`免责声明与法律合规 - ${SITE.name}`}
+  description="VPNTOP 免责声明与法律合规公告：说明网站信息使用范围、合法合规警示以及第三方服务风险告知。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb items={[{ label: '免责声明' }]} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm max-w-prose mx-auto space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+          免责声明 (Disclaimer)
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          请在阅读和使用本站信息前仔细阅读以下条款
+        </p>
+      </div>
+
+      <div class="prose prose-slate max-w-none text-slate-600 space-y-4 text-sm sm:text-base leading-relaxed">
+        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 text-xs sm:text-sm font-medium space-y-1">
+          <div class="font-bold text-amber-800">重要法律提示：</div>
+          <p>
+            本站严格遵守所在国家与地区的互联网法律法规。本站所刊载的网络架构知识、客户端使用教程与测评数据，仅供计算机网络学术研究、跨境软件开发与合规科研人员查阅。
+          </p>
+        </div>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">一、技术学习与合规使用</h2>
+        <p>
+          本站所讨论的加密协议（如 Shadowsocks、VLESS、Trojan、Hysteria2）及开源客户端（如 Clash Verge、v2rayNG、Shadowrocket）均为国际学术界与开源社区公开的技术产物。我们严厉反对并将持续监督：切勿将相关技术用于任何危害国家网络安全、破坏公共秩序、散布违法违规言论或侵犯他人知识产权的活动中。
+        </p>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">二、第三方服务商运营风险</h2>
+        <p>
+          本站所收录和评测的机场服务商均为独立运营的第三方商业实体，本站与任何第三方机场服务商不存在直接雇佣、股权控股或连带保证责任。
+        </p>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>网络波动风险</strong>：国际跨国网络传输受地缘政治、海底光缆故障及不可抗力影响，任何服务商均无法保证 100% 永不卡顿；</li>
+          <li><strong>商业存续风险</strong>：第三方服务商的停业、跑路、调整套餐或变更条款属于独立商业行为。本站基于此反复强调 <strong>“首次购买必须坚持月付，切勿直接年付”</strong>；</li>
+          <li>本站不对用户在第三方平台发生的任何充值损失或商业纠纷承担连带赔偿责任。</li>
+        </ul>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-2">三、内容准确性与时效性</h2>
+        <p>
+          本站编辑部努力确保信息的准确与时效，但服务商的定价方案与节点策略可能会在未提前告知本站的情况下发生变动。请在付款前以服务商官方控制台实时结算页面为准。
+        </p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const allGlossary = await getCollection('glossary');
+allGlossary.sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
+---
+
+<BaseLayout
+  title="科学上网与网络技术知识百科 - VPNTOP"
+  description="VPNTOP专业知识百科词库：系统梳理IEPL专线、机场节点、倍率扣费、订阅链接、TUN虚拟网卡模式等网络核心概念与技术原理。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb items={[{ label: '知识百科' }]} />
+
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-3">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
+        <span>📚 概念词库</span>
+        <span>•</span>
+        <span>客观科普</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+        科学上网与网络协议知识百科
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
+        从网络层到应用层，系统拆解机场节点、专线技术、计费倍率与防火墙交互机制，助你建立扎实的技术常识。
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {allGlossary.map((entry) => (
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 font-semibold">
+                {entry.data.category}
+              </span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px]">
+                {entry.data.difficulty}
+              </span>
+            </div>
+            <h2 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
+              <a href={`/glossary/${entry.slug}/`}>
+                {entry.data.term}
+              </a>
+            </h2>
+            <div class="text-xs font-semibold text-slate-700 mt-1">
+              {entry.data.title}
+            </div>
+            <p class="text-xs text-slate-500 mt-2 line-clamp-3 leading-relaxed">
+              {entry.data.description}
+            </p>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400">词条释义</span>
+            <a
+              href={`/glossary/${entry.slug}/`}
+              class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1"
+            >
+              <span>查看详解</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AIRPORTS, getLowestPerGbCost } from '../../data/airports';
+
+// Prepare serialized data with pre-calculated values
+const clientAirports = AIRPORTS.map((a) => ({
+  id: a.id,
+  name: a.name,
+  slug: a.slug,
+  startingPrice: a.startingPrice,
+  lineType: a.lineType,
+  slaGuarantee: a.slaGuarantee || '尚未核实',
+  lowestPerGb: getLowestPerGbCost(a),
+  traffic: a.plans[0] ? `${a.plans[0].trafficGb} GB / 月` : '按量计费',
+  regions: a.regions.join('、'),
+  protocols: a.protocols.join(', '),
+  deviceLimit: a.deviceLimit,
+  aiSupport: a.aiSupport?.join(', ') || '未特别优化',
+  streamingSupport: a.streamingSupport?.join(', ') || '基础流媒体',
+  advantages: a.advantages,
+  disadvantages: a.disadvantages,
+  affiliateUrl: a.affiliateUrl || a.officialUrl,
+}));
+
+// Default selected slugs (first 3)
+const defaultSelectedSlugs = ['kuanyun', 'fycloud', 'paofu'];
+---
+
+<BaseLayout
+  title="机场参数横向对比工具 - 2026价格线路与AI流媒体多维对比 - VPNTOP"
+  description="多维度机场在线对比工具：支持自选2-4家机场进行套餐价格、每GB参考单价、传输线路、流媒体与ChatGPT解锁能力的横向对比，助你理性选型。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb
+      items={[
+        { label: '横向对比工具' }
+      ]}
+    />
+
+    <!-- Header -->
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-3">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
+        <span>⚖️ 选型决策工具</span>
+        <span>•</span>
+        <span>实时参数对标</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        主流机场与VPN节点参数横向对比工具
+      </h1>
+      <p class="text-sm text-slate-600 leading-relaxed max-w-3xl">
+        请在下方勾选或取消候选品牌（建议选择 2 至 4 家）。系统将动态对比价格成本、物理链路、设备限制以及流媒体与 AI 支持情况。
+      </p>
+
+      <!-- Selector pills -->
+      <div class="pt-2 flex flex-wrap items-center gap-2" id="airport-selector">
+        {clientAirports.map((airport) => (
+          <button
+            type="button"
+            data-id={airport.id}
+            class="compare-toggle-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5"
+          >
+            <span class="indicator-icon text-sm"></span>
+            <span>{airport.name}</span>
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <!-- Empty State Warning (hidden by default) -->
+    <div id="compare-empty" class="hidden bg-amber-50 rounded-2xl border border-amber-200 p-8 text-center space-y-3">
+      <div class="text-3xl">🔍</div>
+      <h2 class="text-lg font-bold text-amber-900">请至少选择 2 家机场进行对比</h2>
+      <p class="text-xs text-amber-700 max-w-md mx-auto">
+        当前未选择足够的候选品牌。请在上方点击品牌标签，选中 2 到 4 家机场以展开横向数据对比表格。
+      </p>
+    </div>
+
+    <!-- Comparison Table Container -->
+    <div id="compare-table-container" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm min-w-[700px]">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-xs text-slate-500 uppercase tracking-wider" id="header-row">
+              <th scope="col" class="py-4 px-4 w-36 bg-slate-100/80 sticky left-0 font-bold text-slate-700">对比维度</th>
+              <!-- Dynamic Brand Headers will be populated here -->
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-xs sm:text-sm" id="tbody-rows">
+            <!-- Dynamic Dimension Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="text-xs text-slate-500 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+      <div class="font-bold text-slate-700">使用说明与计算规则：</div>
+      <p>1. 单GB参考成本是基于各服务商标准周期套餐的可用流量折算得出的理论最低均价。</p>
+      <p>2. 如需了解更详细的晚高峰实测数据与真实连通日志，可点击各品牌列顶部的“独立评测报告”。</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline define:vars={{ clientAirports, defaultSelectedSlugs }}>
+  let selectedIds = [...defaultSelectedSlugs];
+  const allAirports = clientAirports;
+
+  const selector = document.getElementById('airport-selector');
+  const emptyContainer = document.getElementById('compare-empty');
+  const tableContainer = document.getElementById('compare-table-container');
+  const headerRow = document.getElementById('header-row');
+  const tbody = document.getElementById('tbody-rows');
+
+  function updateView() {
+    // Update button states
+    const buttons = document.querySelectorAll('.compare-toggle-btn');
+    buttons.forEach((btn) => {
+      const id = btn.getAttribute('data-id');
+      const isSelected = selectedIds.includes(id);
+      const icon = btn.querySelector('.indicator-icon');
+
+      if (isSelected) {
+        btn.className = 'compare-toggle-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold border bg-brand-600 text-white border-brand-600 shadow-sm transition-all flex items-center gap-1.5';
+        if (icon) icon.textContent = '✓';
+      } else {
+        btn.className = 'compare-toggle-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold border bg-white text-slate-700 border-slate-200 hover:border-slate-300 transition-all flex items-center gap-1.5';
+        if (icon) icon.textContent = '+';
+      }
+    });
+
+    if (selectedIds.length < 2) {
+      emptyContainer.classList.remove('hidden');
+      tableContainer.classList.add('hidden');
+      return;
+    }
+
+    emptyContainer.classList.add('hidden');
+    tableContainer.classList.remove('hidden');
+
+    const selectedAirports = allAirports.filter((a) => selectedIds.includes(a.id));
+
+    // Render Table Header
+    let headerHtml = '<th scope="col" class="py-4 px-4 w-36 bg-slate-100/90 sticky left-0 font-bold text-slate-700 z-10">对比维度</th>';
+    selectedAirports.forEach((airport) => {
+      headerHtml += `
+        <th scope="col" class="py-4 px-4 min-w-[200px] align-top">
+          <div class="flex items-center justify-between">
+            <span class="text-base font-extrabold text-slate-900">${airport.name}</span>
+            <button onclick="removeAirport('${airport.id}')" class="text-slate-400 hover:text-red-500 text-xs px-1.5 py-0.5 rounded bg-slate-100" title="移除此项">✕</button>
+          </div>
+          <div class="mt-1">
+            <span class="text-xs px-2 py-0.5 rounded bg-brand-50 text-brand-700 font-semibold">${airport.lineType}</span>
+          </div>
+          <div class="mt-3">
+            <a href="/review/${airport.slug}/" class="text-xs text-brand-600 hover:underline font-semibold">查看独立评测 &rarr;</a>
+          </div>
+        </th>
+      `;
+    });
+    headerRow.innerHTML = headerHtml;
+
+    // Dimensions configuration
+    const dimensions = [
+      {
+        label: '起步价格',
+        render: (a) => `<span class="text-base font-bold text-brand-600">¥${a.startingPrice}</span> <span class="text-xs text-slate-500">/月起</span>`
+      },
+      {
+        label: '套餐流量',
+        render: (a) => `<span class="font-semibold text-slate-800">${a.traffic}</span>`
+      },
+      {
+        label: '每GB参考成本',
+        render: (a) => `<span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-xs">¥${a.lowestPerGb.toFixed(3)} / GB</span>`
+      },
+      {
+        label: '传输线路与SLA',
+        render: (a) => `<div class="font-semibold text-slate-800">${a.lineType}</div><div class="text-xs text-slate-400">${a.slaGuarantee}</div>`
+      },
+      {
+        label: '协议支持',
+        render: (a) => `<span class="text-slate-700">${a.protocols}</span>`
+      },
+      {
+        label: '设备限制',
+        render: (a) => `<span class="text-slate-700">${a.deviceLimit}</span>`
+      },
+      {
+        label: '覆盖主要国家',
+        render: (a) => `<span class="text-slate-700">${a.regions}</span>`
+      },
+      {
+        label: 'AI工具支持',
+        render: (a) => `<span class="text-emerald-700 text-xs bg-emerald-50 px-2 py-1 rounded inline-block">${a.aiSupport}</span>`
+      },
+      {
+        label: '流媒体解锁',
+        render: (a) => `<span class="text-sky-700 text-xs bg-sky-50 px-2 py-1 rounded inline-block">${a.streamingSupport}</span>`
+      },
+      {
+        label: '主要优势',
+        render: (a) => `<ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">${a.advantages.map(adv => `<li>${adv}</li>`).join('')}</ul>`
+      },
+      {
+        label: '缺点/注意事项',
+        render: (a) => `<ul class="text-xs text-amber-800 space-y-1 list-disc list-inside">${a.disadvantages.map(dis => `<li>${dis}</li>`).join('')}</ul>`
+      },
+      {
+        label: '官网入口',
+        render: (a) => `<a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="inline-block px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-lg transition-colors">前往官方控制台 &rarr;</a>`
+      }
+    ];
+
+    let bodyHtml = '';
+    dimensions.forEach((dim) => {
+      bodyHtml += `<tr class="hover:bg-slate-50/70">`;
+      bodyHtml += `<td class="py-3.5 px-4 font-bold text-slate-700 bg-slate-50/90 sticky left-0 z-10 border-r border-slate-100">${dim.label}</td>`;
+      selectedAirports.forEach((airport) => {
+        bodyHtml += `<td class="py-3.5 px-4 align-top">${dim.render(airport)}</td>`;
+      });
+      bodyHtml += `</tr>`;
+    });
+    tbody.innerHTML = bodyHtml;
+  }
+
+  // Toggle airport selection
+  document.querySelectorAll('.compare-toggle-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      if (selectedIds.includes(id)) {
+        selectedIds = selectedIds.filter((item) => item !== id);
+      } else {
+        if (selectedIds.length >= 4) {
+          alert('为了保证移动端与桌面端的阅读体验，最多同时支持对比 4 家机场。');
+          return;
+        }
+        selectedIds.push(id);
+      }
+      updateView();
+    });
+  });
+
+  window.removeAirport = function(id) {
+    selectedIds = selectedIds.filter((item) => item !== id);
+    updateView();
+  };
+
+  // Initial render
+  updateView();
+</script>

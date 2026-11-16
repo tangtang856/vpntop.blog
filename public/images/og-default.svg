@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0f172a" />
+  <circle cx="1000" cy="150" r="300" fill="#1e3a8a" opacity="0.4" />
+  <circle cx="200" cy="500" r="250" fill="#2563eb" opacity="0.2" />
+  <g transform="translate(100, 180)">
+    <rect width="70" height="70" rx="16" fill="#2563eb" />
+    <path d="M20 22 L32 50 L38 50 L50 22 L42 22 L35 38 L28 22 Z" fill="#ffffff" />
+    <text x="90" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="bold" fill="#ffffff">VPNTOP.blog</text>
+    <text x="0" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="800" fill="#ffffff">中文优质机场推荐与VPN节点评测</text>
+    <text x="0" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#94a3b8">IEPL企业专线 · 性价比排行榜 · 客户端图文教程 · 4K流媒体与AI解锁</text>
+    <rect x="0" y="270" width="320" height="4" rx="2" fill="#2563eb" />
+  </g>
+</svg>

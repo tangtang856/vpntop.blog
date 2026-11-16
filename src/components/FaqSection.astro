@@ -1,0 +1,71 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  items: FaqItem[];
+}
+
+const {
+  title = '常见问题与解答 (FAQ)',
+  description = '围绕机场节点、VPN科学上网选购与日常使用的常见疑问整理。',
+  items,
+} = Astro.props;
+
+// Schema.org FAQPage structured data
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<section class="py-8">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+      {title}
+    </h2>
+    {description && (
+      <p class="text-sm text-slate-500 mt-1">
+        {description}
+      </p>
+    )}
+  </div>
+
+  <div class="space-y-3">
+    {items.map((item, index) => (
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm transition-colors duration-150 open:border-brand-200">
+        <summary class="flex items-center justify-between p-4 sm:p-5 font-semibold text-slate-900 cursor-pointer list-none hover:text-brand-600 transition-colors">
+          <span class="text-base pr-4 flex items-center gap-2">
+            <span class="text-xs font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0">
+              {index + 1}
+            </span>
+            {item.question}
+          </span>
+          <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200 shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </summary>
+        <div class="px-4 pb-5 sm:px-5 sm:pb-6 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+          {item.answer}
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <!-- FAQPage JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</section>

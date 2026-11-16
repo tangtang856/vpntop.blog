@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+import { AIRPORTS } from '../../data/airports';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Other posts for sidebar
+const allPosts = await getCollection('blog');
+const otherPosts = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+
+// Schema.org BlogPosting
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishDate,
+  dateModified: post.data.updateDate,
+  author: {
+    '@type': 'Organization',
+    name: post.data.author,
+  },
+};
+---
+
+<BaseLayout
+  title={`${post.data.metaTitle || post.data.title} - VPNTOP`}
+  description={post.data.description}
+  ogType="article"
+  publishDate={post.data.publishDate}
+  updateDate={post.data.updateDate}
+  schemas={[articleSchema]}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb
+      items={[
+        { label: '资讯博客', href: '/blog/' },
+        { label: post.data.title }
+      ]}
+    />
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Main Content (8 cols) -->
+      <article class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+        <header class="border-b border-slate-100 pb-6 mb-8 space-y-3">
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 font-semibold">
+              {post.data.category}
+            </span>
+            <span>•</span>
+            <span>发布日期：{post.data.publishDate}</span>
+            <span>•</span>
+            <span>更新于：{post.data.updateDate}</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            {post.data.title}
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            {post.data.description}
+          </p>
+        </header>
+
+        <!-- Markdown Content -->
+        <div class="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-brand-600 hover:prose-a:underline prose-img:rounded-xl">
+          <Content />
+        </div>
+      </article>
+
+      <!-- Sidebar (4 cols) -->
+      <aside class="lg:col-span-4 space-y-6">
+        <!-- Featured Airport Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 text-xs">
+          <h3 class="font-bold text-slate-900 text-sm">💡 编辑部精选专线机场</h3>
+          <p class="text-slate-500 leading-relaxed">
+            如需稳定不掉线的 IEPL 专线，推荐参考本站实验室深度评测：
+          </p>
+          <div class="space-y-2 pt-1">
+            {AIRPORTS.slice(0, 2).map((a) => (
+              <a href={`/review/${a.slug}/`} class="block p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-brand-300">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>{a.name}</span>
+                  <span class="text-brand-600">¥{a.startingPrice}/月起</span>
+                </div>
+                <div class="text-slate-400 text-[11px] mt-1">{a.lineType} · {a.tagline}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- Other Blog Posts -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 text-xs">
+          <h3 class="font-bold text-slate-900 text-sm">相关推荐阅读</h3>
+          <ul class="space-y-3">
+            {otherPosts.map((p) => (
+              <li class="border-b border-slate-100 pb-2">
+                <a href={`/blog/${p.slug}/`} class="font-semibold text-slate-800 hover:text-brand-600 line-clamp-2">
+                  {p.data.title}
+                </a>
+                <span class="text-[11px] text-slate-400 block mt-1">{p.data.publishDate}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

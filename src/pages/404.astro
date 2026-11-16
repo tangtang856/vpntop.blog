@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 - 页面未找到 | VPNTOP"
+  description="抱歉，您访问的页面不存在或已被移除。请通过下方热门推荐或返回首页。"
+  noindex={true}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center space-y-6">
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-brand-50 text-brand-600 font-extrabold text-3xl">
+      404
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+      抱歉，未找到该页面
+    </h1>
+    <p class="text-slate-600 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
+      你所访问的网址可能已经迁移、更名或链接已过期。你可以尝试查阅以下核心专题：
+    </p>
+
+    <div class="pt-4 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/"
+        class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition-colors shadow-sm"
+      >
+        返回网站首页
+      </a>
+      <a
+        href="/ranking/overall/"
+        class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-brand-400 text-slate-700 font-semibold text-sm transition-colors shadow-sm"
+      >
+        查看综合排行榜
+      </a>
+      <a
+        href="/compare/"
+        class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-brand-400 text-slate-700 font-semibold text-sm transition-colors shadow-sm"
+      >
+        打开机场对比器
+      </a>
+    </div>
+  </div>
+</BaseLayout>

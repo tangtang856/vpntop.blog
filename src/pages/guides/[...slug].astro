@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+import { AIRPORTS } from '../../data/airports';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await guide.render();
+
+// Matched recommended airports
+const recommended = AIRPORTS.filter((a) => guide.data.recommendedAirports.includes(a.id));
+
+// Schema.org Article / HowTo
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: guide.data.title,
+  description: guide.data.description,
+  datePublished: guide.data.publishDate,
+  dateModified: guide.data.updateDate,
+  author: {
+    '@type': 'Organization',
+    name: guide.data.author,
+  },
+};
+---
+
+<BaseLayout
+  title={`${guide.data.metaTitle || guide.data.title} - VPNTOP`}
+  description={guide.data.description}
+  ogType="article"
+  publishDate={guide.data.publishDate}
+  updateDate={guide.data.updateDate}
+  schemas={[articleSchema]}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb
+      items={[
+        { label: '教程中心', href: '/guides/' },
+        { label: guide.data.title }
+      ]}
+    />
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Main Article (8 cols) -->
+      <article class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+        <header class="border-b border-slate-100 pb-6 mb-8 space-y-3">
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 font-semibold uppercase">
+              {guide.data.platform}
+            </span>
+            <span>•</span>
+            <span>更新于：{guide.data.updateDate}</span>
+            <span>•</span>
+            <span>作者：{guide.data.author}</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            {guide.data.title}
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            {guide.data.description}
+          </p>
+        </header>
+
+        <!-- Markdown Content -->
+        <div class="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-brand-600 hover:prose-a:underline prose-img:rounded-xl">
+          <Content />
+        </div>
+      </article>
+
+      <!-- Sidebar (4 cols) -->
+      <aside class="lg:col-span-4 space-y-6">
+        <!-- Recommended Airports Card -->
+        {recommended.length > 0 && (
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+              <span>✈️ 本教程适配的推荐机场</span>
+            </h3>
+            <div class="space-y-3">
+              {recommended.map((airport) => (
+                <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs space-y-1.5">
+                  <div class="flex items-center justify-between font-bold text-slate-800">
+                    <a href={`/review/${airport.slug}/`} class="hover:text-brand-600">{airport.name}</a>
+                    <span class="text-brand-600">¥{airport.startingPrice}/月起</span>
+                  </div>
+                  <p class="text-slate-500 line-clamp-1">{airport.tagline}</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <span class="text-[11px] text-slate-400">{airport.lineType}</span>
+                    <a href={`/review/${airport.slug}/`} class="text-brand-600 font-medium">查看评测 &rarr;</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Quick Links Card -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-3 text-xs">
+          <h3 class="font-bold text-slate-900">核心指南与工具</h3>
+          <ul class="space-y-2 text-slate-600">
+            <li><a href="/ranking/overall/" class="hover:text-brand-600">🏆 2026综合实力排行榜</a></li>
+            <li><a href="/ranking/value/" class="hover:text-brand-600">💰 极致性价比排行榜</a></li>
+            <li><a href="/compare/" class="hover:text-brand-600">⚖️ 机场参数横向对比器</a></li>
+            <li><a href="/glossary/node-multiplier/" class="hover:text-brand-600">❓ 什么是节点倍率计算？</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

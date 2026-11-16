@@ -1,0 +1,161 @@
+---
+import { NAV_ITEMS, SITE } from '../site.config';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-brand-700 to-brand-500 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
+          V
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold text-slate-900 tracking-tight leading-none group-hover:text-brand-600 transition-colors">
+            VPNTOP<span class="text-brand-600">.blog</span>
+          </span>
+          <span class="text-[11px] text-slate-500 font-medium tracking-wider mt-0.5">
+            机场推荐与VPN节点评测
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+        {NAV_ITEMS.map((item) => {
+          const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+          const hasChildren = item.children && item.children.length > 0;
+
+          return (
+            <div class="relative group">
+              <a
+                href={item.href}
+                class={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                  isActive
+                    ? 'text-brand-600 bg-brand-50 font-semibold'
+                    : 'text-slate-700 hover:text-brand-600 hover:bg-slate-50'
+                }`}
+              >
+                {item.label}
+                {hasChildren && (
+                  <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-600 group-hover:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
+              </a>
+
+              {hasChildren && (
+                <div class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block transition-all duration-150">
+                  <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 overflow-hidden ring-1 ring-black/5">
+                    {item.children?.map((sub) => (
+                      <a
+                        href={sub.href}
+                        class="block px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-colors group/sub"
+                      >
+                        <div class="text-sm font-medium text-slate-800 group-hover/sub:text-brand-600">
+                          {sub.label}
+                        </div>
+                        {sub.desc && (
+                          <div class="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                            {sub.desc}
+                          </div>
+                        )}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+
+      <!-- Right Action / Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a
+          href="/compare/"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 rounded-full border border-brand-200 transition-colors"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          机场对比器
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button
+          type="button"
+          id="mobile-menu-btn"
+          aria-label="打开网站导航菜单"
+          class="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon-bars">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon-close">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white">
+    <div class="px-4 pt-2 pb-6 space-y-1 divide-y divide-slate-100 max-h-[80vh] overflow-y-auto">
+      {NAV_ITEMS.map((item) => (
+        <div class="py-2">
+          <a
+            href={item.href}
+            class="block px-3 py-2 text-base font-semibold text-slate-900 rounded-md hover:bg-slate-50"
+          >
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="pl-4 mt-1 space-y-1">
+              {item.children.map((sub) => (
+                <a
+                  href={sub.href}
+                  class="block px-3 py-1.5 text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50 rounded"
+                >
+                  {sub.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      <div class="pt-4 px-3 flex flex-col gap-2">
+        <a
+          href="/compare/"
+          class="w-full text-center py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-lg text-sm transition-colors"
+        >
+          打开机场横向对比工具
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconBars = document.getElementById('menu-icon-bars');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const isExpanded = menu.classList.toggle('hidden');
+      if (iconBars && iconClose) {
+        iconBars.classList.toggle('hidden', !isExpanded);
+        iconClose.classList.toggle('hidden', isExpanded);
+      }
+    });
+  }
+</script>

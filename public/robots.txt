@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Bingbot & Major Search Engines
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Sitemap Index
+Sitemap: https://vpntop.blog/sitemap-index.xml

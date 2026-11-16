@@ -1,0 +1,30 @@
+{
+  "name": "vpntop-blog",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "indexnow": "tsx scripts/indexnow.ts",
+    "audit:seo": "tsx scripts/audit-seo.ts",
+    "check:links": "tsx scripts/check-links.ts",
+    "validate:content": "tsx scripts/validate-content.ts",
+    "qa": "npm run validate:content && npm run audit:seo && npm run check:links"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "3.1.6",
+    "@astrojs/tailwind": "^5.1.5",
+    "@tailwindcss/typography": "^0.5.16",
+    "astro": "^4.16.18",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.3"
+  }
+}

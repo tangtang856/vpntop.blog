@@ -1,0 +1,29 @@
+Keyword,Intent,Target URL,Page Type,Priority,Title,H1
+机场推荐,Transactional/Commercial,https://vpntop.blog/,Home,P0,2026最新优质机场推荐与节点评测指南 - VPNTOP,2026年最新稳定高速机场推荐与节点选购指南
+机场节点,Informational,https://vpntop.blog/glossary/airport-nodes/,Glossary,P1,什么是机场节点？节点类型与倍率计算全解析 - VPNTOP,什么是机场节点？专线节点与普通节点详解
+性价比机场,Commercial,https://vpntop.blog/ranking/value/,Ranking,P0,2026高性价比机场排行榜 - 每GB单价与稳定性横评,2026年高性价比机场排行：低价不踩坑指南
+梯子推荐,Commercial,https://vpntop.blog/recommend/beginner/,Recommend,P0,新手梯子推荐与翻墙科学上网快速上手指南 - VPNTOP,新手梯子推荐：零门槛稳定翻墙入门指南
+vpn,Informational,https://vpntop.blog/blog/vpn-vs-airport/,Blog,P1,VPN与机场有什么区别？小白避坑科普对比 - VPNTOP,VPN与机场有什么区别？工作原理与适用场景对比
+vpn机场,Commercial,https://vpntop.blog/ranking/overall/,Ranking,P0,2026年度VPN机场综合排行榜 - 稳定性与速度实测,2026年VPN机场综合排行榜：稳定与速度双优选
+vpn节点,Informational,https://vpntop.blog/guides/windows/,Guide,P1,Windows电脑如何配置VPN节点与客户端教程 - VPNTOP,Windows客户端配置VPN机场节点完整教程
+vpn推荐,Commercial,https://vpntop.blog/recommend/stable/,Recommend,P0,稳定防封VPN推荐与企业专线网络选择指南 - VPNTOP,稳定防封VPN推荐：专线不过墙防封首选
+低预算机场,Commercial,https://vpntop.blog/recommend/budget/,Recommend,P1,便宜低预算机场推荐 - 月付几元也能畅连,低预算便宜机场推荐：月付5元以内靠谱选择
+高端专线机场,Commercial,https://vpntop.blog/recommend/premium/,Recommend,P1,高端专线机场推荐 - IEPL/IPLC不过墙稳定之选,高端IEPL/IPLC专线机场推荐：敏感时期稳连保障
+流媒体解锁机场,Commercial,https://vpntop.blog/recommend/streaming/,Recommend,P2,Netflix/Disney+流媒体解锁机场推荐指南,4K流媒体解锁机场推荐：告别地区版权限制
+ChatGPT AI机场,Commercial,https://vpntop.blog/recommend/ai/,Recommend,P2,ChatGPT与Claude专用原生IP机场推荐,ChatGPT/Claude专用AI原生IP机场推荐
+综合排行榜,Commercial,https://vpntop.blog/ranking/overall/,Ranking,P0,2026机场综合实力排行榜 - 节点与服务总评,2026年全网机场综合排行榜
+低预算排行榜,Commercial,https://vpntop.blog/ranking/budget/,Ranking,P1,低预算便宜机场排行榜 - 平价套餐横向筛选,2026年低预算学生党平价机场排行榜
+稳定性排行榜,Commercial,https://vpntop.blog/ranking/stable/,Ranking,P1,高稳定性防断联机场排行榜 - 晚高峰不卡顿,高稳定性防断联机场排行榜：晚高峰不掉线
+机场横向比较,Commercial,https://vpntop.blog/compare/,Compare,P1,机场参数横向对比工具 - 价格线路规格对比,主流机场参数与套餐横向对比工具
+Android客户端教程,Informational,https://vpntop.blog/guides/android/,Guide,P1,Android安卓手机配置Clash/v2rayNG教程,Android手机Clash与v2rayNG图文使用教程
+iOS苹果客户端教程,Informational,https://vpntop.blog/guides/ios/,Guide,P1,iOS苹果手机Shadowrocket小火箭配置教程,iOS苹果手机小火箭(Shadowrocket)配置教程
+macOS苹果电脑教程,Informational,https://vpntop.blog/guides/macos/,Guide,P1,macOS苹果电脑配置Clash Verge与Surge教程,macOS苹果电脑科学上网客户端配置教程
+软路由配置教程,Informational,https://vpntop.blog/guides/router/,Guide,P2,OpenWrt软路由家庭全屋科学上网配置教程,OpenWrt软路由家庭全屋翻墙科学上网配置教程
+IEPL专线解析,Informational,https://vpntop.blog/glossary/iepl-iplc/,Glossary,P1,什么是IEPL专线与IPLC内网专线？有什么优势,什么是IEPL与IPLC专线？与普通中转区别
+节点倍率计算,Informational,https://vpntop.blog/glossary/node-multiplier/,Glossary,P1,机场节点倍率是什么意思？如何计算流量消耗,机场节点倍率计算与流量防超标指南
+订阅链接使用,Informational,https://vpntop.blog/glossary/subscription-url/,Glossary,P1,机场订阅链接是什么？如何正确导入客户端,机场订阅链接使用方法与安全防泄露提示
+TUN模式与系统代理,Informational,https://vpntop.blog/glossary/tun-mode/,Glossary,P2,TUN虚拟网卡模式与系统代理的区别解析,TUN虚拟网卡模式与系统代理的区别与开启方法
+常见协议科普,Informational,https://vpntop.blog/blog/protocols-comparison/,Blog,P1,Shadowsocks/VLESS/Hysteria2常见协议对比,常见翻墙协议解析：SS、VLESS与Hysteria2
+为什么便宜机场容易跑路,Informational,https://vpntop.blog/blog/why-cheap-airports-run/,Blog,P1,为什么超便宜机场容易跑路？成本结构大揭秘,为什么超便宜机场容易跑路？揭秘行业成本内幕
+ChatGPT无法访问排查,Informational,https://vpntop.blog/blog/chatgpt-vpn-fix/,Blog,P2,ChatGPT提示Access Denied怎么解决？节点排查,ChatGPT Access Denied 报错排查与原生IP要求
+2026年机场选购避坑,Informational,https://vpntop.blog/blog/airport-buying-guide-2026/,Blog,P0,2026新手购买机场避坑全攻略 - 看这一篇就够了,2026年新手购买机场防坑与选购全指南

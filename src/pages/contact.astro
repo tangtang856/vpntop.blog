@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { SITE } from '../site.config';
+---
+
+<BaseLayout
+  title={`联系我们 - ${SITE.name}`}
+  description="联系 VPNTOP 编辑团队：反馈测试建议、报告服务商跑路或信息失真、勘误教程步骤，或洽谈合规商务与数据沟通。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb items={[{ label: '联系我们' }]} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm max-w-prose mx-auto space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+          联系 VPNTOP 编辑部
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          期待您的建议、纠错反馈与技术交流
+        </p>
+      </div>
+
+      <div class="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
+        <p>
+          如果您在浏览 VPNTOP 网站的过程中发现了任何错误、失效链接、服务商套餐变更通知，或者您是一位网络运维工程师希望向我们分享测试样本，请随时通过以下方式与我们取得联系。
+        </p>
+
+        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="font-bold text-slate-800">官方电子邮箱：</span>
+            <a href="mailto:contact@vpntop.blog" class="text-brand-600 font-mono font-medium hover:underline">
+              contact@vpntop.blog
+            </a>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="font-bold text-slate-800">GitHub 仓库 Issues：</span>
+            <a href="https://github.com/tangtang856/vpntop.blog/issues" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline">
+              tangtang856/vpntop.blog/issues
+            </a>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="font-bold text-slate-800">响应时效：</span>
+            <span class="text-slate-500 text-xs">通常在 2 个工作日内查验并回复</span>
+          </div>
+        </div>
+
+        <h2 class="text-lg font-bold text-slate-900 pt-3">商务与服务商入库说明</h2>
+        <p class="text-xs sm:text-sm text-slate-500">
+          若您是正规运营的机场服务商，申请进入我们的监测样本库，请提供您的官方网站、公开工单支持途径及运营时长证明。我们坚决拒绝任何要求“花钱买榜首”或“隐藏真实缺点”的赞助请求。所有进入排行榜的服务商均须接受统一维度的客观核验。
+        </p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

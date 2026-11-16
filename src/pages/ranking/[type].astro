@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import RankingTable from '../../components/RankingTable.astro';
+import { AIRPORTS, getLowestPerGbCost } from '../../data/airports';
+
+export function getStaticPaths() {
+  const rankingDefs = [
+    {
+      type: 'overall',
+      title: '2026年度VPN机场综合实力排行榜 - 稳定与速度实测',
+      h1: '2026年全网VPN机场综合排行榜：稳定与速度双优选',
+      description: '全网主流机场多维度综合评测榜单。基于网络链路类型（IEPL专线/BGP中转）、晚高峰丢包抗压、流媒体/AI解锁能力与长期运营信誉综合加权评定。',
+      quickConclusion: '追求极致稳定与晚高峰零卡顿，首选纯IEPL内网专线的宽云或老牌泡芙云；追求平价大流量，首选支持Hysteria2的飞鸟云。',
+      criteria: '综合评分 = 线路物理质量与SLA保障 (40%) + 晚高峰实测抗拥堵 (25%) + 单GB性价比 (20%) + 流媒体/ChatGPT解锁 (15%)。'
+    },
+    {
+      type: 'value',
+      title: '2026高性价比机场排行榜 - 每GB单价与流量精细折算',
+      h1: '2026年高性价比机场排行：低价不踩坑指南',
+      description: '基于真实每GB可用成本精细折算的性价比榜单。严格剔除虚高倍率与水分，区分月付与年付周期，真实展现每一元钱能买到的有效流量。',
+      quickConclusion: '在保障至少具备BGP中转的前提下，飞鸟云以折合约 ¥0.07/GB 的极低综合单价夺得性价比首位；银河极速在20元档位提供了最均衡的IEPL专线性价比。',
+      criteria: '单GB成本 = 套餐价格 / 真实有效流量。严格排除未经验证的小作坊与存在虚高扣量倍率的异常套餐。'
+    },
+    {
+      type: 'budget',
+      title: '2026低预算平价机场排行榜 - 学生党与轻度备用首选',
+      h1: '2026年低预算平价机场排行榜：月付5-15元实惠甄选',
+      description: '专为学生党、轻度网页文献查阅与作为备用梯子的用户梳理的低总价月付排行榜。起步门槛极低，花极少预算即可畅连全球。',
+      quickConclusion: '极客云以12元/月的低门槛适合尝鲜与轻度用户；飞鸟云15元提供150GB大流量，兼具性价比与亲民总价。',
+      criteria: '按最低套餐起步月付价格由低到高排序，重点考查月付友好度与基础可用性。'
+    },
+    {
+      type: 'stable',
+      title: '2026高稳定性防断联机场排行榜 - 晚高峰与特殊时期坚挺',
+      h1: '2026高稳定性防断联机场排行榜：晚高峰不掉线专线首选',
+      description: '专注于抗封锁、低丢包与高可用性的排行榜。收录具备多入口热备、商业IEPL/IPLC光纤专线，在晚高峰与敏感时期依然表现稳定的优质服务商。',
+      quickConclusion: '泡芙云运营超5年无事故记录，专线平稳度最高；宽云全线纯IEPL专线不过墙，晚高峰延迟几乎无波动。',
+      criteria: '基于底层物理链路是否为纯专线（物理不过GFW）、多地入口冗余调度机制及持续运营历史评定。'
+    }
+  ];
+
+  return rankingDefs.map((def) => ({
+    params: { type: def.type },
+    props: { def }
+  }));
+}
+
+const { def } = Astro.props;
+const rankingType = def.type as 'overall' | 'value' | 'budget' | 'stable';
+---
+
+<BaseLayout
+  title={def.title}
+  description={def.description}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <!-- Breadcrumb -->
+    <Breadcrumb
+      items={[
+        { label: '排行榜', href: '/ranking/overall/' },
+        { label: def.h1 }
+      ]}
+    />
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
+          🏆 榜单分类：{def.title.split('-')[0]}
+        </span>
+        <span class="text-xs text-slate-400">更新时间：2026年2月中旬</span>
+        <span class="text-xs text-slate-400">• 数据来源：服务商官方参数与持续监测</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
+        {def.h1}
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-4xl">
+        {def.description}
+      </p>
+
+      <!-- Quick Conclusion Callout -->
+      <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-900 space-y-1">
+        <div class="font-bold flex items-center gap-1.5 text-emerald-800">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          一句话快速结论
+        </div>
+        <p class="leading-relaxed">
+          {def.quickConclusion}
+        </p>
+      </div>
+
+      <!-- Ranking Criteria -->
+      <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-start gap-2">
+        <span class="font-bold text-slate-700 shrink-0">排名评定依据：</span>
+        <span>{def.criteria}</span>
+      </div>
+    </header>
+
+    <!-- Navigation between Rankings -->
+    <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
+      <span class="text-xs font-semibold text-slate-500 mr-2">切换榜单视角：</span>
+      <a
+        href="/ranking/overall/"
+        class={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+          rankingType === 'overall'
+            ? 'bg-brand-600 text-white shadow-sm'
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+        }`}
+      >
+        综合实力榜
+      </a>
+      <a
+        href="/ranking/value/"
+        class={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+          rankingType === 'value'
+            ? 'bg-brand-600 text-white shadow-sm'
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+        }`}
+      >
+        极致性价比榜
+      </a>
+      <a
+        href="/ranking/budget/"
+        class={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+          rankingType === 'budget'
+            ? 'bg-brand-600 text-white shadow-sm'
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+        }`}
+      >
+        低预算平价榜
+      </a>
+      <a
+        href="/ranking/stable/"
+        class={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+          rankingType === 'stable'
+            ? 'bg-brand-600 text-white shadow-sm'
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+        }`}
+      >
+        高稳定性榜
+      </a>
+    </div>
+
+    <!-- Comparative Ranking Table -->
+    <section class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-900">
+        入选品牌横向比较表格
+      </h2>
+      <RankingTable airports={AIRPORTS} rankingType={rankingType} />
+    </section>
+
+    <!-- Detailed Brand Introductions -->
+    <section class="space-y-6">
+      <h2 class="text-xl font-bold text-slate-900">
+        各品牌详细背景与入选理由
+      </h2>
+
+      <div class="space-y-4">
+        {AIRPORTS.map((airport, idx) => {
+          const lowestCost = getLowestPerGbCost(airport);
+          return (
+            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-3">
+                  <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                  <h3 class="text-lg font-bold text-slate-900">
+                    <a href={`/review/${airport.slug}/`} class="hover:text-brand-600">
+                      {airport.name}
+                    </a>
+                  </h3>
+                  <span class="text-xs px-2 py-0.5 rounded bg-brand-50 text-brand-700 font-medium">
+                    {airport.lineType}
+                  </span>
+                </div>
+                <div class="text-xs text-slate-500">
+                  起步价：<strong class="text-brand-600 text-sm">¥{airport.startingPrice}</strong>/月起（约 ¥{lowestCost.toFixed(3)}/GB）
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-600 leading-relaxed">
+                {airport.description}
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+                <div class="p-3 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                  <span class="font-bold text-emerald-800 block mb-1">主要优势：</span>
+                  <ul class="text-slate-600 space-y-0.5 list-disc list-inside">
+                    {airport.advantages.slice(0, 2).map((adv) => (
+                      <li>{adv}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+                  <span class="font-bold text-slate-700 block mb-1">适合人群：</span>
+                  <span class="text-slate-600">{airport.suitableFor.join('、')}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end gap-3 pt-2 text-xs">
+                <a href={`/review/${airport.slug}/`} class="text-brand-600 hover:text-brand-700 font-medium">
+                  查看独立深度评测报告 &rarr;
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Data Transparency & Source Note -->
+    <div class="text-xs text-slate-500 bg-slate-100/70 p-4 rounded-xl space-y-1.5 leading-relaxed">
+      <div class="font-bold text-slate-700">数据来源与评测准则声明：</div>
+      <p>1. 本排行榜所有套餐价格与节点流量配置均直接核实自服务商官方最新控制台公告，未核实数据绝不收录。</p>
+      <p>2. 排行榜采用动态评估，每月中旬进行链路健康抽检并刷新排序结果。</p>
+      <p>3. 详细测试方法论请参阅 <a href="/editorial-policy/" class="text-brand-600 underline">评测政策与评测标准</a>。</p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AIRPORTS, getLowestPerGbCost } from '../../data/airports';
+
+export function getStaticPaths() {
+  return AIRPORTS.map((airport) => ({
+    params: { slug: airport.slug },
+    props: { airport }
+  }));
+}
+
+const { airport } = Astro.props;
+const lowestPerGb = getLowestPerGbCost(airport);
+---
+
+<BaseLayout
+  title={`${airport.name}官方资料与节点参数概览 - VPNTOP`}
+  description={`${airport.name}资料档案库：收录${airport.name}的${airport.lineType}网络规格、起步套餐价格(¥${airport.startingPrice}/月起)、单GB参考单价与协议支持。`}
+  canonical={`https://vpntop.blog/review/${airport.slug}/`}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb
+      items={[
+        { label: '机场资料库', href: '/ranking/overall/' },
+        { label: `${airport.name} 档案` }
+      ]}
+    />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="flex items-center gap-2">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-200">
+          {airport.lineType}
+        </span>
+        <span class="text-xs text-slate-500">最后核验：{airport.lastVerified}</span>
+      </div>
+
+      <h1 class="text-3xl font-extrabold text-slate-900">
+        {airport.name} 品牌档案与技术概览
+      </h1>
+
+      <p class="text-base text-slate-600 leading-relaxed">
+        {airport.description}
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl text-xs">
+        <div>
+          <span class="text-slate-400 block">起步月付</span>
+          <span class="text-base font-bold text-brand-600">¥{airport.startingPrice}/月</span>
+        </div>
+        <div>
+          <span class="text-slate-400 block">单GB参考成本</span>
+          <span class="text-base font-bold text-slate-800">¥{lowestPerGb.toFixed(3)}/GB</span>
+        </div>
+        <div>
+          <span class="text-slate-400 block">设备限制</span>
+          <span class="text-base font-bold text-slate-800">{airport.deviceLimit}</span>
+        </div>
+        <div>
+          <span class="text-slate-400 block">线路类别</span>
+          <span class="text-base font-bold text-slate-800">{airport.lineType}</span>
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-wrap gap-4">
+        <a
+          href={`/review/${airport.slug}/`}
+          class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl transition-colors"
+        >
+          查看完整独立评测报告 &rarr;
+        </a>
+        <a
+          href="/compare/"
+          class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-colors"
+        >
+          在对比工具中比较
+        </a>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

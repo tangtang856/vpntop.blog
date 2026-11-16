@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import AirportCard from '../../components/AirportCard.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { AIRPORTS } from '../../data/airports';
+
+export function getStaticPaths() {
+  const categories = [
+    {
+      category: 'budget',
+      title: '便宜低预算机场推荐 - 月付几元也能畅连',
+      h1: '2026便宜低预算机场推荐：月付5-15元高性价比优选',
+      description: '为预算有限的学生党与轻度科学上网用户筛选的低价平价机场。详细对比起步月付价格、真实可用流量额度与防跑路选购技巧。',
+      criteria: '以起步月付在 20 元以内、单GB价格低廉、支持月付为核心筛选标准。',
+      filterFn: (a: any) => a.startingPrice <= 25,
+      faqs: [
+        {
+          question: '便宜的低价机场会不会很容易跑路？',
+          answer: '只要不贪便宜购买“年付10元不限流量”之类的畸形套餐，选择运营2年以上的老牌平价中转机场（如飞鸟云、极客云），并坚持“按月续费”，就能将风险降至最低。'
+        },
+        {
+          question: '低预算机场能不能看 4K YouTube 视频？',
+          answer: '可以。大多数BGP中转机场在非极端晚高峰时段，单节点带宽均可达到 200Mbps-500Mbps，看 4K 毫无压力。'
+        }
+      ]
+    },
+    {
+      category: 'premium',
+      title: '高端专线机场推荐 - IEPL/IPLC不过墙稳定之选',
+      h1: '高端IEPL/IPLC专线机场推荐：商业内网不过墙保障',
+      description: '为对网络稳定性有严苛要求的跨境办公、远程开发与科研人员甄选的顶级IEPL/IPLC内网专线机场。物理不过墙，晚高峰超低延迟，全天候零丢包。',
+      criteria: '核心节点必须部署商业内网专线（IEPL/IPLC），晚高峰无感抗波动，支持原生住宅IP。',
+      filterFn: (a: any) => a.lineType.includes('专线'),
+      faqs: [
+        {
+          question: '为什么高端专线机场比普通中转贵一倍以上？',
+          answer: '因为跨境内网物理专线（如深港IEPL）是由三大运营商提供合法跨境通道，每1Mbps的月租成本高达30-50元，机房硬性开销远超公网中转。'
+        },
+        {
+          question: '专线在敏感时期真的不会断网吗？',
+          answer: '是的。因为物理专线不经过国家防火墙（GFW）的公网国际出口，不受审查设备的重置或封锁，连通率接近 100%。'
+        }
+      ]
+    },
+    {
+      category: 'beginner',
+      title: '新手梯子推荐与翻墙科学上网快速上手指南 - VPNTOP',
+      h1: '新手梯子推荐：零门槛稳定翻墙与防坑快速入门指南',
+      description: '专为首次接触科学上网的新手整理的梯子推荐与入门避坑指南。提供一键导入功能、详尽多平台图文客户端教程以及贴心客服工单支持。',
+      criteria: '控制台简单易用、有一键导入主流客户端功能、图文教程详实、支持月付且价格亲民。',
+      filterFn: (a: any) => a.badges?.includes('新手友好') || a.badges?.includes('编辑推荐') || a.badges?.includes('老牌常青'),
+      faqs: [
+        {
+          question: '新手完全不懂电脑技术，能学会使用吗？',
+          answer: '完全可以。现代客户端（如电脑上的 Clash Verge 或手机端小火箭）只需在网站点击“一键导入订阅”，开启开关即可联网，无需繁杂代码配置。'
+        },
+        {
+          question: '新手第一次买机场，买什么套餐最保险？',
+          answer: '牢记一条铁律：只买“月付”！先花费十几元体验一个月，确认在自己家里的宽带与手机网络下稳定，再考虑长期使用。'
+        }
+      ]
+    },
+    {
+      category: 'stable',
+      title: '稳定防封VPN推荐与高可用机场选择指南 - VPNTOP',
+      h1: '高稳定性防断联机场推荐：晚高峰不卡顿与敏感期稳连首选',
+      description: '聚焦网络抗阻断能力与多入口容灾调度机制。严选多地入口自动BGP热备、故障毫秒级转移的高抗封锁优质机场。',
+      criteria: 'SLA 可用率在 99% 以上，具备华东/华南双入口自动容灾机制或多年平稳运营口碑。',
+      filterFn: (a: any) => (a.stabilityScore || 0) >= 9.0,
+      faqs: [
+        {
+          question: '为什么有的机场一到晚上 8 点到 10 点就断断续续？',
+          answer: '晚高峰是全国国际公网出口最拥挤的时段。低端机场由于带宽超售严重，入口塞车导致大面积丢包。高稳定性专线机场预留了充足冗余带宽，因此不受波及。'
+        }
+      ]
+    },
+    {
+      category: 'ai',
+      title: 'ChatGPT与Claude专用原生IP机场推荐 - VPNTOP',
+      h1: 'ChatGPT/Claude专用AI原生IP机场推荐：告别Access Denied',
+      description: '针对OpenAI与Anthropic极度苛刻的反欺诈风控规则定制。严选配备美日新家庭住宅原生IP、纯净广播段与稳定低延迟的AI利器。',
+      criteria: '落地节点部署纯净原生住宅IP，常规支持 GPT-4o、Claude 3.5 Sonnet 与 Cursor IDE，不常触发风控拦截。',
+      filterFn: (a: any) => a.aiSupport && a.aiSupport.length >= 3,
+      faqs: [
+        {
+          question: '为什么香港节点打不开 ChatGPT？',
+          answer: '因为 OpenAI 与 Anthropic 官方服务并未向中国大陆及中国香港开放，香港 IP 会直接被识别并返回 Access Denied。使用 AI 工具必须切换至美国、日本或新加坡节点。'
+        }
+      ]
+    },
+    {
+      category: 'streaming',
+      title: 'Netflix/Disney+ 4K流媒体解锁机场推荐指南 - VPNTOP',
+      h1: '4K超清流媒体解锁机场推荐：告别Netflix地区版权限制',
+      description: '精选针对Netflix港区日区美区、Disney+、YouTube Premium及HBO Max等海外流媒体全解锁的高速大流量机场。',
+      criteria: '节点带宽冗余充足，原生支持多区流媒体版权库解锁，4K/8K视频秒开无缓冲。',
+      filterFn: (a: any) => a.streamingSupport && a.streamingSupport.length >= 4,
+      faqs: [
+        {
+          question: '看 4K 视频一个月大概需要多少流量？',
+          answer: '观看 4K 流媒体每小时消耗大约 7GB 流量。若每天观看 1-2 小时，建议购买每月 200GB 至 350GB 的套餐。'
+        }
+      ]
+    }
+  ];
+
+  return categories.map((cat) => ({
+    params: { category: cat.category },
+    props: { info: cat }
+  }));
+}
+
+const { info } = Astro.props;
+const matchedAirports = AIRPORTS.filter(info.filterFn);
+---
+
+<BaseLayout
+  title={info.title}
+  description={info.description}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <!-- Breadcrumb -->
+    <Breadcrumb
+      items={[
+        { label: '机场推荐', href: '/recommend/budget/' },
+        { label: info.h1 }
+      ]}
+    />
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
+        <span>专题推荐</span>
+        <span>•</span>
+        <span>2026 客观遴选</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
+        {info.h1}
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-4xl">
+        {info.description}
+      </p>
+      <div class="pt-2 text-xs text-slate-500 bg-slate-50 p-3.5 rounded-xl border border-slate-100 flex items-start gap-2">
+        <span class="text-brand-600 font-bold shrink-0">遴选标准：</span>
+        <span>{info.criteria}</span>
+      </div>
+    </header>
+
+    <!-- Matched Airport Cards -->
+    <section class="space-y-6">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-xl font-bold text-slate-900">
+          符合本专题的推荐方案 ({matchedAirports.length} 家)
+        </h2>
+        <a href="/compare/" class="text-xs text-brand-600 hover:text-brand-700 font-medium">
+          放入对比工具 &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {matchedAirports.map((airport, idx) => (
+          <AirportCard airport={airport} featured={idx === 0} />
+        ))}
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <FaqSection
+      title={`${info.h1.split('：')[0]} - 常见问答`}
+      description="针对该场景下的常见选购疑惑进行客观解答。"
+      items={info.faqs}
+    />
+
+    <!-- Internal Linking Navigation -->
+    <nav class="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-3">
+      <h3 class="text-sm font-bold text-slate-900">浏览其他核心专题：</h3>
+      <div class="flex flex-wrap gap-2 text-xs">
+        <a href="/recommend/budget/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          💸 低预算平价推荐
+        </a>
+        <a href="/recommend/premium/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          ⚡ 高端IEPL专线推荐
+        </a>
+        <a href="/recommend/beginner/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          🌱 新手零门槛梯子
+        </a>
+        <a href="/recommend/stable/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          🛡️ 高稳定性防封首选
+        </a>
+        <a href="/recommend/ai/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          🤖 ChatGPT/Claude专用
+        </a>
+        <a href="/recommend/streaming/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-300">
+          🎬 4K流媒体解锁
+        </a>
+      </div>
+    </nav>
+  </div>
+</BaseLayout>

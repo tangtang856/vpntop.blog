@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { SITE } from '../site.config';
+---
+
+<BaseLayout
+  title={`关于我们 - ${SITE.name}独立网络评测门户`}
+  description="了解 VPNTOP 的创建背景、技术立足点、评测原则与使命：致力于为中文互联网用户提供真实、透明、无虚假宣传的机场与VPN资讯。"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb items={[{ label: '关于我们' }]} />
+
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm max-w-prose mx-auto space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+          关于 VPNTOP.blog
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          客观、透明、专注网络基础设施与科学上网评测
+        </p>
+      </div>
+
+      <div class="prose prose-slate max-w-none text-slate-600 space-y-4 leading-relaxed text-sm sm:text-base">
+        <p>
+          <strong>VPNTOP</strong> 是由数名深耕计算机网络架构、跨境云计算基础设施与信息安全领域的工程师及独立评测者共同创建的中文网络资讯门户。
+        </p>
+
+        <h2 class="text-xl font-bold text-slate-900 pt-2">一、为什么创建 VPNTOP？</h2>
+        <p>
+          在当前的中文网络生态中，围绕“机场推荐”、“梯子购买”以及“科学上网”的资讯环境极其混乱：
+        </p>
+        <ul class="list-disc list-inside space-y-1">
+          <li>大量充斥着劣质的“垃圾采集站”和“批量虚假跑分博客”；</li>
+          <li>不少所谓“测评人”为了高额返利，大肆吹捧随时准备跑路的“年付9.9元无限流量”短命黑产小作坊；</li>
+          <li>许多初学者因信息不对称，白白交了学费甚至在工作紧急时刻频繁断网。</li>
+        </ul>
+        <p>
+          我们坚信：<strong>网络工具的评测必须基于真实的数据核验、公开透明的评分规则以及底层的物理成本核算。</strong> 我们希望通过严谨的技术分析与持续的跟踪复测，为广大跨国科研人员、外贸企业、AI 开发者与普通网民提供一盏清晰的避坑明灯。
+        </p>
+
+        <h2 class="text-xl font-bold text-slate-900 pt-2">二、我们的核心承诺</h2>
+        <ol class="list-decimal list-inside space-y-1.5">
+          <li><strong>拒绝虚假测试</strong>：未曾经过可用率验证的服务商绝不收录，缺失资料明确标记“尚未核实”。</li>
+          <li><strong>公开评分维度</strong>：排行榜与推荐榜单所有加权系数和计算公式全部公开，杜绝黑箱排名。</li>
+          <li><strong>披露商业合作</strong>：对于包含返利的 Affiliate 链接，我们始终进行清晰醒目的披露，且商业关系绝不干涉对产品缺点的客观批评。</li>
+        </ol>
+
+        <div class="pt-4 border-t border-slate-100 text-xs text-slate-400">
+          如需了解更多测试方法论，欢迎查阅我们的 <a href="/editorial-policy/" class="text-brand-600 underline">编辑政策与评测标准</a>。
+        </div>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

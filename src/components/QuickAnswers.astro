@@ -1,0 +1,43 @@
+---
+const answers = [
+  {
+    q: '新手第一次买机场/VPN，应该怎么选？',
+    a: '优先选择支持“月付”且具备完善图文客户端教程的品牌，切忌首次就购买年付；优先考虑国内中转或入门级IEPL专线，避开几元钱声称“几十个国家永久可用”的黑心小作坊。',
+    tag: '避坑法则',
+  },
+  {
+    q: '哪些硬性指标最值得关注？',
+    a: '核心看“线路类型（IEPL专线 > BGP中转 > 普通直连）”、“晚高峰（20:00-23:00）抗拥堵能力”、“流媒体与ChatGPT解锁状态”以及“退款/工单响应政策”，而非单纯看标称的节点总数量。',
+    tag: '核心考量',
+  },
+  {
+    q: '如何准确判断套餐是否划算？',
+    a: '关注“每GB实际可用成本”与“倍率规则”。有些看似便宜的套餐标注了3倍率甚至5倍率扣费，实际可用流量缩水严重。本站性价比排行已自动根据实际倍率折算单GB净成本。',
+    tag: '成本核算',
+  },
+  {
+    q: '下单购买前，必须要检查什么？',
+    a: '检查是否支持你所使用的设备系统（如iOS需自备美区Apple ID购买小火箭Shadowrocket）、是否支持你常用的支付手段，以及TG交流群或测速频道是否有近期大面积报障。',
+    tag: '下单前检查',
+  },
+];
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {answers.map((item) => (
+    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-brand-200 transition-colors">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-brand-50 text-brand-700">
+          {item.tag}
+        </span>
+        <span class="text-xs text-slate-400">快速解答</span>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 mb-2">
+        {item.q}
+      </h3>
+      <p class="text-sm text-slate-600 leading-relaxed">
+        {item.a}
+      </p>
+    </div>
+  ))}
+</div>

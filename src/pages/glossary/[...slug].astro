@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('glossary');
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Other terms
+const allGlossary = await getCollection('glossary');
+const otherTerms = allGlossary.filter((g) => g.slug !== entry.slug).slice(0, 4);
+
+// Schema.org DefinedTerm
+const termSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: entry.data.term,
+  description: entry.data.description,
+  inDefinedTermSet: 'https://vpntop.blog/glossary/',
+};
+---
+
+<BaseLayout
+  title={`${entry.data.metaTitle || entry.data.title} - VPNTOP 百科`}
+  description={entry.data.description}
+  schemas={[termSchema]}
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <Breadcrumb
+      items={[
+        { label: '知识百科', href: '/glossary/' },
+        { label: entry.data.term }
+      ]}
+    />
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Main Content (8 cols) -->
+      <article class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+        <header class="border-b border-slate-100 pb-6 mb-8 space-y-3">
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 font-semibold">
+              {entry.data.category}
+            </span>
+            <span>•</span>
+            <span>难度级别：{entry.data.difficulty}</span>
+            <span>•</span>
+            <span>更新于：{entry.data.updateDate}</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            {entry.data.title}
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            {entry.data.description}
+          </p>
+        </header>
+
+        <!-- Markdown Content -->
+        <div class="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-brand-600 hover:prose-a:underline prose-img:rounded-xl">
+          <Content />
+        </div>
+      </article>
+
+      <!-- Sidebar (4 cols) -->
+      <aside class="lg:col-span-4 space-y-6">
+        <!-- Related Terms Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 text-xs">
+          <h3 class="font-bold text-slate-900 text-sm">相关百科词条</h3>
+          <ul class="space-y-2.5">
+            {otherTerms.map((t) => (
+              <li class="border-b border-slate-100 pb-2">
+                <a href={`/glossary/${t.slug}/`} class="font-bold text-slate-800 hover:text-brand-600 block">
+                  {t.data.term}
+                </a>
+                <span class="text-slate-500 line-clamp-1 mt-0.5">{t.data.title}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-2 text-xs text-slate-600">
+          <h3 class="font-bold text-slate-900 text-sm">探索实用工具</h3>
+          <p class="leading-relaxed">阅读完概念后，可结合排行榜与工具挑选适合的节点：</p>
+          <div class="pt-2 flex flex-col gap-2">
+            <a href="/ranking/overall/" class="text-brand-600 font-semibold hover:underline">🏆 2026机场综合排行榜 &rarr;</a>
+            <a href="/compare/" class="text-brand-600 font-semibold hover:underline">⚖️ 机场横向参数对比器 &rarr;</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
