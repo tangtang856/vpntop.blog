@@ -51,7 +51,7 @@ const { currentPath = '/' } = Astro.props;
               </a>
 
               {hasChildren && (
-                <div class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block transition-all duration-150">
+                <div class={`absolute ${item.label === '教程中心' ? 'right-0' : 'left-0'} top-full pt-2 w-64 hidden group-hover:block transition-all duration-150`}>
                   <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 overflow-hidden ring-1 ring-black/5">
                     {item.children?.map((sub) => (
                       <a

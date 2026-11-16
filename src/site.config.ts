@@ -54,19 +54,22 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: '机场横向对比', href: '/compare/' },
-  {
-    label: '使用教程',
-    href: '/guides/windows/',
-    children: [
-      { label: 'Windows 教程', href: '/guides/windows/', desc: 'Clash Verge / Sing-box 配置' },
-      { label: 'Android 教程', href: '/guides/android/', desc: 'v2rayNG / Clash Meta 配置' },
-      { label: 'iOS 教程', href: '/guides/ios/', desc: 'Shadowrocket 小火箭配置' },
-      { label: 'macOS 教程', href: '/guides/macos/', desc: 'Mac 客户端与系统代理教程' },
-      { label: 'OpenWrt 软路由', href: '/guides/router/', desc: '家庭网关全屋透明代理' },
-    ],
-  },
   { label: '资讯博客', href: '/blog/' },
   { label: '知识百科', href: '/glossary/' },
+  {
+    label: '教程中心',
+    href: '/guides/',
+    children: [
+      { label: '全部教程总览', href: '/guides/', desc: '30 篇全平台多协议客户端实操指南大全' },
+      { label: 'Windows 教程', href: '/guides/windows/', desc: 'Clash Verge / Sing-box / v2rayN' },
+      { label: 'Android 教程', href: '/guides/android/', desc: 'v2rayNG / Clash Meta / 规则分流' },
+      { label: 'iOS 教程', href: '/guides/ios/', desc: 'Shadowrocket / Surge / Stash / Loon' },
+      { label: 'macOS 教程', href: '/guides/macos/', desc: 'Mac 客户端与系统全局代理教程' },
+      { label: 'OpenWrt 软路由', href: '/guides/router/', desc: '家庭网关与 Docker 全屋透明代理' },
+      { label: '智能电视 TV', href: '/guides/tv-apple-tv/', desc: 'Apple TV 与 Android TV 电视端配置' },
+      { label: 'Linux 与测速', href: '/guides/general-speedtest/', desc: '服务器代理与 Stair Speedtest 测速' },
+    ],
+  },
 ];
 
 export const FOOTER_LINKS = {
