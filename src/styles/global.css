@@ -113,6 +113,15 @@ section.bg-white {
   background-color: #ffffff !important;
 }
 
+/* Footer Z-Index Guarantee - Ensure Footer Stays Above Global Background Canvas */
+footer,
+footer.bg-slate-900,
+.site-footer {
+  position: relative !important;
+  z-index: 10 !important;
+  background-color: #0f172a !important;
+}
+
 /* Animated Radiant Rising Red Sun Aura */
 .global-ink-sun {
   position: absolute;
