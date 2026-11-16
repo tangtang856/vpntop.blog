@@ -8,8 +8,36 @@ import { FOOTER_LINKS, SITE } from '../site.config';
       <!-- Col 1: Brand Info -->
       <div class="lg:col-span-2 space-y-4">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold text-base">
-            V
+          <div class="w-9 h-9 rounded-xl overflow-hidden shadow-sm shrink-0">
+            <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="footerLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e3a8a" />
+                  <stop offset="50%" stop-color="#2563eb" />
+                  <stop offset="100%" stop-color="#0284c7" />
+                </linearGradient>
+                <linearGradient id="footerLeftWing" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#38bdf8" />
+                  <stop offset="100%" stop-color="#0284c7" />
+                </linearGradient>
+                <linearGradient id="footerRightWing" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="100%" stop-color="#e0f2fe" />
+                </linearGradient>
+                <linearGradient id="footerCoreBeam" x1="50%" y1="0%" x2="50%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="100%" stop-color="#38bdf8" />
+                </linearGradient>
+              </defs>
+              <rect width="100" height="100" rx="26" fill="url(#footerLogoBg)" />
+              <rect x="1.5" y="1.5" width="97" height="97" rx="24.5" stroke="rgba(255, 255, 255, 0.28)" stroke-width="2" fill="none" />
+              <g>
+                <path d="M50 18 L21 73 C19 77 23 81 27 79 L50 65 Z" fill="url(#footerLeftWing)" />
+                <path d="M50 18 L79 73 C81 77 77 81 73 79 L50 65 Z" fill="url(#footerRightWing)" />
+                <path d="M50 20 L53.5 56 L50 62 L46.5 56 Z" fill="url(#footerCoreBeam)" />
+                <path d="M50 70 L34 81 C32 82 35 85 38 83.5 L50 76 L62 83.5 C65 85 68 82 66 81 Z" fill="#38bdf8" opacity="0.95" />
+              </g>
+            </svg>
           </div>
           <span class="text-xl font-bold text-white tracking-tight">
             VPNTOP<span class="text-brand-400">.blog</span>
