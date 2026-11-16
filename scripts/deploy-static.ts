@@ -78,6 +78,11 @@ const distCssDir = path.join(DIST_DIR, 'css');
 if (!fs.existsSync(distCssDir)) fs.mkdirSync(distCssDir, { recursive: true });
 fs.copyFileSync(path.join(ROOT_DIR, 'css', 'style.css'), path.join(distCssDir, 'style.css'));
 
+const distImagesDir = path.join(DIST_DIR, 'images');
+copyDirRecursive(path.join(ROOT_DIR, 'images'), distImagesDir);
+copyDirRecursive(path.join(ROOT_DIR, 'public', 'images'), distImagesDir);
+copyDirRecursive(path.join(ROOT_DIR, 'public', 'images'), path.join(ROOT_DIR, 'images'));
+
 console.log('[deploy-static] 已完成纯 HTML 文件结构清理与全新迁移至根目录。');
 
 // 3. Process every HTML file in root AND dist

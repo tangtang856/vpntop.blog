@@ -45,3 +45,349 @@
 .overflow-x-auto::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* ========================================================
+   VPNTOP Oriental Ink Wash Dynamic Background System
+   水墨山水动态背景系统 - 纯原生 CSS 硬件加速动画
+   ======================================================== */
+
+/* 1. Global Ambient Background for BaseLayout */
+.site-ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.site-ambient-landscape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/bg-landscape.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  opacity: 0.16;
+  filter: contrast(105%) brightness(102%);
+}
+
+.site-ambient-mist {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, transparent 20%, rgba(248, 250, 252, 0.7) 70%, #f8fafc 100%);
+}
+
+/* 2. Hero Section Dynamic Showcase */
+.ink-hero-container {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+}
+
+/* Landscape Canvas Layer */
+.ink-hero-bg {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  background-image: url('../images/bg-landscape.jpg');
+  background-repeat: no-repeat;
+  background-position: center 30%;
+  background-size: cover;
+  opacity: 0.95;
+  will-change: transform;
+  animation: inkLandscapeDrift 24s ease-in-out infinite alternate;
+}
+
+/* Soft atmospheric overlay to balance contrast while preserving ink details */
+.ink-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(248, 250, 252, 0.35) 40%,
+    rgba(241, 245, 249, 0.75) 85%,
+    #f8fafc 100%
+  );
+  pointer-events: none;
+}
+
+/* Animated Rising Red Sun Aura */
+.ink-sun-aura {
+  position: absolute;
+  left: 28%;
+  top: 18%;
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.45) 0%, rgba(248, 113, 113, 0.25) 40%, transparent 75%);
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: inkSunPulse 5.5s ease-in-out infinite alternate;
+}
+
+/* Drifting Valley Mist Layers */
+.ink-mist-drift {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ink-mist-1 {
+  position: absolute;
+  top: 25%;
+  left: -20%;
+  width: 140%;
+  height: 45%;
+  background: radial-gradient(ellipse 60% 35% at 50% 50%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 60%, transparent 100%);
+  filter: blur(20px);
+  will-change: transform;
+  animation: inkMistDrift1 26s ease-in-out infinite alternate;
+}
+
+.ink-mist-2 {
+  position: absolute;
+  top: 45%;
+  left: -10%;
+  width: 130%;
+  height: 40%;
+  background: radial-gradient(ellipse 50% 30% at 50% 50%, rgba(241, 245, 249, 0.65) 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  filter: blur(28px);
+  will-change: transform;
+  animation: inkMistDrift2 36s ease-in-out infinite alternate;
+}
+
+/* Animated Soaring Birds / Cranes */
+.ink-birds-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.ink-bird {
+  position: absolute;
+  color: #1e293b;
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.ink-bird svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: inkWingFlap 1.4s ease-in-out infinite;
+}
+
+/* Bird Trajectories & Delays */
+.ink-bird-1 {
+  width: 22px;
+  height: 14px;
+  animation: inkBirdFly1 22s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+.ink-bird-2 {
+  width: 17px;
+  height: 11px;
+  animation: inkBirdFly2 25s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 4s;
+}
+
+.ink-bird-3 {
+  width: 14px;
+  height: 9px;
+  animation: inkBirdFly3 28s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 9s;
+}
+
+.ink-bird-4 {
+  width: 12px;
+  height: 8px;
+  animation: inkBirdFly4 30s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 14s;
+}
+
+.ink-bird-5 {
+  width: 18px;
+  height: 12px;
+  animation: inkBirdFly5 24s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 18s;
+}
+
+/* Hero Glassmorphic Center Card */
+.ink-hero-card {
+  position: relative;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  padding: 2.25rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .ink-hero-card {
+    padding: 3rem 2.5rem;
+  }
+}
+
+/* Dynamic Animation Keyframes */
+@keyframes inkLandscapeDrift {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.035) translate(-12px, -6px);
+  }
+  100% {
+    transform: scale(1.015) translate(8px, -3px);
+  }
+}
+
+@keyframes inkSunPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.45;
+    box-shadow: 0 0 25px 8px rgba(239, 68, 68, 0.35);
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.9;
+    box-shadow: 0 0 50px 22px rgba(239, 68, 68, 0.65), 0 0 90px 40px rgba(251, 146, 60, 0.3);
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.55;
+    box-shadow: 0 0 30px 12px rgba(239, 68, 68, 0.4);
+  }
+}
+
+@keyframes inkMistDrift1 {
+  0% {
+    transform: translateX(-12%) translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateX(10%) translateY(-6px);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(-8%) translateY(3px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes inkMistDrift2 {
+  0% {
+    transform: translateX(8%) translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(-12%) translateY(8px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(6%) translateY(-4px);
+    opacity: 0.45;
+  }
+}
+
+@keyframes inkWingFlap {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.7);
+  }
+}
+
+@keyframes inkBirdFly1 {
+  0% {
+    transform: translate(-5vw, 45vh) scale(0.55);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(105vw, -20vh) scale(0.85);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly2 {
+  0% {
+    transform: translate(-8vw, 55vh) scale(0.45);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.65;
+  }
+  88% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(105vw, -10vh) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly3 {
+  0% {
+    transform: translate(-10vw, 62vh) scale(0.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(105vw, 5vh) scale(0.75);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly4 {
+  0% {
+    transform: translate(-6vw, 38vh) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(105vw, -25vh) scale(0.65);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly5 {
+  0% {
+    transform: translate(-4vw, 50vh) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  88% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(105vw, -15vh) scale(0.9);
+    opacity: 0;
+  }
+}

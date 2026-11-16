@@ -53,10 +53,55 @@ const homeKeywords = [
   description="VPNTOP是专业的中文机场推荐、VPN节点评测与科学上网配置指南。专注IEPL企业专线、性价比机场排行榜与流媒体AI解锁，提供客观数据与多维度排行榜。"
   keywords={homeKeywords}
 >
-  <!-- Section 2: Hero -->
-  <section class="bg-gradient-to-b from-white via-slate-50 to-slate-100 border-b border-slate-200 pt-12 pb-16 lg:pt-16 lg:pb-20">
-    <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto space-y-5">
+  <!-- Section 2: Animated Ink Wash Landscape Hero (水墨山水动态背景) -->
+  <section class="ink-hero-container pt-12 pb-16 lg:pt-16 lg:pb-24">
+    <!-- 1. Dynamic Moving Landscape Canvas -->
+    <div class="ink-hero-bg" aria-hidden="true"></div>
+
+    <!-- 2. Soft Ambient Gradient Overlay -->
+    <div class="ink-hero-overlay" aria-hidden="true"></div>
+
+    <!-- 3. Animated Red Sun Radiance -->
+    <div class="ink-sun-aura" aria-hidden="true"></div>
+
+    <!-- 4. Drifting Mountain Mist & Clouds -->
+    <div class="ink-mist-drift" aria-hidden="true">
+      <div class="ink-mist-1"></div>
+      <div class="ink-mist-2"></div>
+    </div>
+
+    <!-- 5. Soaring Flying Cranes / Birds Flock -->
+    <div class="ink-birds-stage" aria-hidden="true">
+      <div class="ink-bird ink-bird-1">
+        <svg viewBox="0 0 40 24" fill="currentColor">
+          <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+        </svg>
+      </div>
+      <div class="ink-bird ink-bird-2">
+        <svg viewBox="0 0 40 24" fill="currentColor">
+          <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+        </svg>
+      </div>
+      <div class="ink-bird ink-bird-3">
+        <svg viewBox="0 0 40 24" fill="currentColor">
+          <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+        </svg>
+      </div>
+      <div class="ink-bird ink-bird-4">
+        <svg viewBox="0 0 40 24" fill="currentColor">
+          <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+        </svg>
+      </div>
+      <div class="ink-bird ink-bird-5">
+        <svg viewBox="0 0 40 24" fill="currentColor">
+          <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- 6. Foreground Content Card with High-Contrast Glassmorphism -->
+    <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="ink-hero-card text-center max-w-3xl mx-auto space-y-5">
         <!-- Bing SEO Tagline / Badge -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-semibold">
           <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
@@ -69,25 +114,25 @@ const homeKeywords = [
         </h1>
 
         <!-- Direct Answer / Search Intent Intro -->
-        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+        <p class="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
           汇聚全网优质 <strong>性价比机场</strong> 与 <strong>IEPL内网专线梯子推荐</strong>。通过严格的晚高峰延迟测试、流媒体与ChatGPT解锁检测及单GB真实成本折算，助你精准避开跑路小作坊，零门槛畅享全球互联网。
         </p>
 
         <!-- Quick Topic Badges -->
         <div class="pt-2 flex flex-wrap items-center justify-center gap-2">
-          <a href="/ranking/overall/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-medium text-slate-700 shadow-sm transition-all">
+          <a href="/ranking/overall/" class="px-3.5 py-2 rounded-lg bg-white/95 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:shadow-md">
             🏆 综合实力榜
           </a>
-          <a href="/ranking/value/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-medium text-slate-700 shadow-sm transition-all">
+          <a href="/ranking/value/" class="px-3.5 py-2 rounded-lg bg-white/95 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:shadow-md">
             💰 性价比排行
           </a>
-          <a href="/recommend/premium/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-medium text-slate-700 shadow-sm transition-all">
+          <a href="/recommend/premium/" class="px-3.5 py-2 rounded-lg bg-white/95 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:shadow-md">
             ⚡ 高端IEPL专线
           </a>
-          <a href="/recommend/ai/" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-medium text-slate-700 shadow-sm transition-all">
+          <a href="/recommend/ai/" class="px-3.5 py-2 rounded-lg bg-white/95 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:shadow-md">
             🤖 ChatGPT/Claude原生IP
           </a>
-          <a href="/compare/" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-medium shadow-sm transition-all">
+          <a href="/compare/" class="px-3.5 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition-all hover:shadow-md">
             ⚖️ 机场横向对比器
           </a>
         </div>
