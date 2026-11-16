@@ -98,16 +98,16 @@ const homeKeywords = [
   <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16 relative z-10">
     <!-- Section 3: Quick Answers -->
     <section>
-      <div class="mb-6 flex items-baseline justify-between">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-sm">
         <div>
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
             新手选购快速答案
           </h2>
-          <p class="text-sm text-slate-500 mt-1">
+          <p class="text-sm text-slate-600 mt-1">
             为搜索用户提供立即可用的判断依据与防坑结论。
           </p>
         </div>
-        <a href="/blog/airport-buying-guide-2026/" class="text-xs font-medium text-brand-600 hover:text-brand-700 hidden sm:inline-block">
+        <a href="/blog/airport-buying-guide-2026/" class="text-xs font-semibold text-brand-600 hover:text-brand-700 whitespace-nowrap hidden sm:inline-block">
           查看完整避坑全攻略 &rarr;
         </a>
       </div>
@@ -116,17 +116,17 @@ const homeKeywords = [
 
     <!-- Section 4: Featured Recommendations -->
     <section>
-      <div class="mb-6 flex items-baseline justify-between">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-sm">
         <div>
           <div class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-1">精选方案</div>
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
             2026 精选梯子与机场推荐
           </h2>
-          <p class="text-sm text-slate-500 mt-1">
+          <p class="text-sm text-slate-600 mt-1">
             基于真实官方参数与网络可用性抽测，拒绝虚假测试与虚构宣传。
           </p>
         </div>
-        <a href="/ranking/overall/" class="text-xs font-medium text-brand-600 hover:text-brand-700">
+        <a href="/ranking/overall/" class="text-xs font-semibold text-brand-600 hover:text-brand-700 whitespace-nowrap">
           查看完整排行表格 &rarr;
         </a>
       </div>
@@ -140,13 +140,13 @@ const homeKeywords = [
 
     <!-- Section 5: Comprehensive Rankings Table -->
     <section>
-      <div class="mb-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-sm">
         <div>
           <div class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-1">客观量化</div>
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
             2026年度 VPN机场综合排行榜
           </h2>
-          <p class="text-sm text-slate-500 mt-1">
+          <p class="text-sm text-slate-600 mt-1">
             综合稳定性、单GB净成本、晚高峰表现与流媒体解锁能力排定。
           </p>
         </div>
@@ -167,7 +167,7 @@ const homeKeywords = [
     </section>
 
     <!-- Section 6: Selection by Needs -->
-    <section class="bg-white/92 backdrop-blur-md rounded-2xl border border-slate-200/80 p-6 sm:p-8">
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
       <div class="mb-6">
         <div class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-1">精准匹配</div>
         <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
@@ -245,13 +245,13 @@ const homeKeywords = [
 
     <!-- Section 8: Latest In-depth Reviews -->
     <section>
-      <div class="mb-6 flex items-baseline justify-between">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-sm">
         <div>
           <div class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-1">深度评测</div>
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
             最新机场独立评测
           </h2>
-          <p class="text-sm text-slate-500 mt-1">
+          <p class="text-sm text-slate-600 mt-1">
             多维度拆解套餐价格、节点链路、优缺点与实测注意事项。
           </p>
         </div>
@@ -261,7 +261,7 @@ const homeKeywords = [
         {AIRPORTS.map((airport) => (
           <a
             href={`/review/${airport.slug}/`}
-            class="bg-white/92 backdrop-blur-md rounded-xl border border-slate-200/80 p-5 hover:border-brand-400 hover:shadow-md hover:bg-white transition-all flex flex-col justify-between group"
+            class="bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group shadow-sm"
           >
             <div>
               <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
@@ -285,7 +285,7 @@ const homeKeywords = [
     </section>
 
     <!-- Section 10: Knowledge Glossary -->
-    <section class="bg-white/92 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-slate-200/80">
+    <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
       <div class="mb-6 flex items-baseline justify-between">
         <div>
           <div class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-1">知识百科</div>
@@ -305,7 +305,7 @@ const homeKeywords = [
         {allGlossary.map((entry) => (
           <a
             href={`/glossary/${entry.slug}/`}
-            class="bg-white/92 backdrop-blur-md rounded-xl border border-slate-200/80 p-4 hover:border-brand-300 hover:shadow-sm hover:bg-white transition-all"
+            class="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-300 hover:shadow-sm transition-all"
           >
             <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
               <span class="font-semibold text-brand-600">{entry.data.category}</span>

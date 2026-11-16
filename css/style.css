@@ -17,7 +17,7 @@
   background-color: #f1f5f9;
 }
 
-/* Ultra HD Moving Ink Landscape Layer (2752x1536) */
+/* Ultra HD Moving Ink Landscape Layer (2752x1536) - Soft contrast so text is 100% readable */
 .global-ink-bg {
   position: absolute;
   inset: -4%;
@@ -27,8 +27,8 @@
   background-repeat: no-repeat;
   background-position: center 25%;
   background-size: cover;
-  opacity: 0.95;
-  filter: contrast(106%) saturate(104%);
+  opacity: 0.65;
+  filter: contrast(104%) saturate(102%);
   image-rendering: high-quality;
   image-rendering: -webkit-optimize-contrast;
   will-change: transform;
@@ -42,11 +42,28 @@
   inset: 0;
   background: radial-gradient(
     circle at 50% 30%,
-    transparent 25%,
-    rgba(248, 250, 252, 0.25) 55%,
-    rgba(241, 245, 249, 0.5) 100%
+    transparent 20%,
+    rgba(248, 250, 252, 0.3) 55%,
+    rgba(241, 245, 249, 0.55) 100%
   );
   pointer-events: none;
+}
+
+/* Solid White Card Protection - 100% High Contrast for Reading */
+.bg-white,
+article.bg-white,
+div.bg-white,
+section.bg-white {
+  background-color: #ffffff !important;
+}
+
+.bg-white\/95 {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+
+.bg-white\/92,
+.bg-white\/90 {
+  background-color: #ffffff !important;
 }
 
 /* Animated Radiant Rising Red Sun Aura */
