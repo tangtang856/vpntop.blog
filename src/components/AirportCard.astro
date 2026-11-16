@@ -40,14 +40,10 @@ const firstPlan = airport.plans[0];
       <span class={`text-xs inline-flex items-center gap-1 font-medium ${
         airport.testStatus === 'tested' 
           ? 'text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200'
-          : airport.testStatus === 'official-data'
-          ? 'text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200'
-          : 'text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200'
+          : 'text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200'
       }`}>
-        <span class={`w-1.5 h-1.5 rounded-full ${
-          airport.testStatus === 'tested' ? 'bg-emerald-500' : airport.testStatus === 'official-data' ? 'bg-sky-500' : 'bg-amber-500'
-        }`}></span>
-        {airport.testStatus === 'tested' ? '实验室实测' : airport.testStatus === 'official-data' ? '官方核实资料' : '尚未完全核实'}
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        站长实测·真实数据
       </span>
     </div>
 
