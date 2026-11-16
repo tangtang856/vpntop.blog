@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
     color: #1e293b;
-    background-color: #f8fafc;
+    background-color: #f1f5f9;
   }
 
   body {
@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: transparent !important;
   }
 
   ::selection {
@@ -47,51 +48,24 @@
 }
 
 /* ========================================================
-   VPNTOP Oriental Ink Wash Dynamic Background System (Ultra HD)
-   水墨山水动态背景系统 - 超高清 2K/4K 原生 CSS 硬件加速
+   VPNTOP Global Full-Page Oriental Ink Wash Dynamic Background
+   全网页水墨山水动态背景系统 - 固定全屏沉浸视差动效
    ======================================================== */
 
-/* 1. Global Ambient Background for BaseLayout */
-.site-ambient-bg {
+/* Fixed Global Dynamic Stage Behind Entire Webpage */
+.global-ink-stage {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background-color: #f8fafc;
+  background-color: #f1f5f9;
 }
 
-.site-ambient-landscape {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../images/bg-landscape.jpg');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  opacity: 0.22;
-  filter: contrast(110%) brightness(100%);
-  image-rendering: high-quality;
-}
-
-.site-ambient-mist {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 20%, transparent 35%, rgba(248, 250, 252, 0.65) 75%, #f8fafc 100%);
-}
-
-/* 2. Hero Section Dynamic Showcase */
-.ink-hero-container {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid #e2e8f0;
-  background-color: #f8fafc;
-}
-
-/* Landscape Canvas Layer - Ultra HD */
-.ink-hero-bg {
+/* Ultra HD Moving Ink Landscape Layer (2752x1536) */
+.global-ink-bg {
   position: absolute;
   inset: -4%;
   width: 108%;
@@ -100,78 +74,72 @@
   background-repeat: no-repeat;
   background-position: center 25%;
   background-size: cover;
-  opacity: 1;
+  opacity: 0.95;
   filter: contrast(106%) saturate(104%);
   image-rendering: high-quality;
   image-rendering: -webkit-optimize-contrast;
   will-change: transform;
   transform: translateZ(0);
-  animation: inkLandscapeDrift 28s ease-in-out infinite alternate;
+  animation: inkGlobalLandscapeDrift 28s ease-in-out infinite alternate;
 }
 
-/* Crisp atmospheric overlay - crystal clear, no foggy wash */
-.ink-hero-overlay {
+/* Transparent ambient wash to ensure maximum text readability */
+.global-ink-wash {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.02) 40%,
-    rgba(248, 250, 252, 0.75) 88%,
-    #f8fafc 100%
+  background: radial-gradient(
+    circle at 50% 30%,
+    transparent 25%,
+    rgba(248, 250, 252, 0.25) 55%,
+    rgba(241, 245, 249, 0.5) 100%
   );
   pointer-events: none;
 }
 
-/* Animated Rising Red Sun Aura - calibrated to 24.9% X and 18.0% Y */
-.ink-sun-aura {
+/* Animated Radiant Rising Red Sun Aura */
+.global-ink-sun {
   position: absolute;
   left: 24.9%;
   top: 18%;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, rgba(248, 113, 113, 0.2) 45%, transparent 75%);
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.45) 0%, rgba(248, 113, 113, 0.2) 45%, transparent 75%);
   pointer-events: none;
   will-change: transform, opacity;
   animation: inkSunPulse 5.5s ease-in-out infinite alternate;
 }
 
-/* Delicate Valley Mist Layers - low opacity, subtle flow, NO heavy blur smudges */
-.ink-mist-drift {
+/* Delicate Flowing Mountain Mist Layers */
+.global-ink-mist-1 {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.ink-mist-1 {
-  position: absolute;
-  top: 32%;
+  top: 30%;
   left: -20%;
   width: 140%;
   height: 35%;
-  background: radial-gradient(ellipse 65% 30% at 50% 50%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 80%);
+  background: radial-gradient(ellipse 65% 30% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 80%);
   filter: blur(12px);
   will-change: transform;
   animation: inkMistDrift1 26s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-.ink-mist-2 {
+.global-ink-mist-2 {
   position: absolute;
   top: 55%;
   left: -10%;
   width: 130%;
   height: 30%;
-  background: radial-gradient(ellipse 55% 25% at 50% 50%, rgba(241, 245, 249, 0.4) 0%, rgba(255, 255, 255, 0.15) 45%, transparent 80%);
+  background: radial-gradient(ellipse 55% 25% at 50% 50%, rgba(241, 245, 249, 0.45) 0%, rgba(255, 255, 255, 0.15) 45%, transparent 80%);
   filter: blur(16px);
   will-change: transform;
   animation: inkMistDrift2 36s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-/* Animated Soaring Birds / Cranes - crisp silhouettes */
-.ink-birds-stage {
+/* Soaring Cranes / Birds Flying Across Entire Screen */
+.global-ink-birds {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -184,7 +152,7 @@
   color: #0f172a;
   display: inline-block;
   will-change: transform, opacity;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
 }
 
 .ink-bird svg {
@@ -245,15 +213,157 @@
 }
 
 /* Dynamic Animation Keyframes */
-@keyframes inkLandscapeDrift {
+@keyframes inkGlobalLandscapeDrift {
   0% {
     transform: scale(1) translate(0, 0);
   }
   50% {
-    transform: scale(1.03) translate(-10px, -5px);
+    transform: scale(1.03) translate(-8px, -4px);
   }
   100% {
-    transform: scale(1.015) translate(6px, -3px);
+    transform: scale(1.015) translate(6px, -2px);
+  }
+}
+
+@keyframes inkSunPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.45;
+    box-shadow: 0 0 25px 8px rgba(239, 68, 68, 0.35);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.85;
+    box-shadow: 0 0 50px 20px rgba(239, 68, 68, 0.6), 0 0 85px 35px rgba(251, 146, 60, 0.25);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.5;
+    box-shadow: 0 0 30px 10px rgba(239, 68, 68, 0.4);
+  }
+}
+
+@keyframes inkMistDrift1 {
+  0% {
+    transform: translateX(-10%) translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateX(8%) translateY(-4px);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateX(-6%) translateY(2px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes inkMistDrift2 {
+  0% {
+    transform: translateX(6%) translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-10%) translateY(6px);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateX(5%) translateY(-3px);
+    opacity: 0.35;
+  }
+}
+
+@keyframes inkWingFlap {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.7);
+  }
+}
+
+@keyframes inkBirdFly1 {
+  0% {
+    transform: translate(-5vw, 45vh) scale(0.55);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(105vw, -20vh) scale(0.85);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly2 {
+  0% {
+    transform: translate(-8vw, 55vh) scale(0.45);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.65;
+  }
+  88% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(105vw, -10vh) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly3 {
+  0% {
+    transform: translate(-10vw, 62vh) scale(0.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(105vw, 5vh) scale(0.75);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly4 {
+  0% {
+    transform: translate(-6vw, 38vh) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(105vw, -25vh) scale(0.65);
+    opacity: 0;
+  }
+}
+
+@keyframes inkBirdFly5 {
+  0% {
+    transform: translate(-4vw, 50vh) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  88% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(105vw, -15vh) scale(0.9);
+    opacity: 0;
   }
 }
 

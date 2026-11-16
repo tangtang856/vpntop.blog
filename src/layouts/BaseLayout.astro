@@ -113,16 +113,55 @@ const orgSchema = {
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
   </head>
-  <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900 flex flex-col min-h-screen relative">
-    <!-- Global Ambient Ink Wash Backdrop -->
-    <div class="site-ambient-bg" aria-hidden="true">
-      <div class="site-ambient-landscape"></div>
-      <div class="site-ambient-mist"></div>
+  <body class="text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900 flex flex-col min-h-screen relative overflow-x-hidden">
+    <!-- Full-Page Global Animated Water-Ink Canvas (全网页动态水墨背景) -->
+    <div class="global-ink-stage" aria-hidden="true">
+      <!-- 1. Ultra HD Moving Landscape Canvas -->
+      <div class="global-ink-bg"></div>
+
+      <!-- 2. Clean Ambient Contrast Wash -->
+      <div class="global-ink-wash"></div>
+
+      <!-- 3. Animated Rising Red Sun Radiance -->
+      <div class="global-ink-sun"></div>
+
+      <!-- 4. Drifting Mountain Mist Layers -->
+      <div class="global-ink-mist-1"></div>
+      <div class="global-ink-mist-2"></div>
+
+      <!-- 5. Soaring Flying Cranes / Birds Flock Across Entire Screen -->
+      <div class="global-ink-birds">
+        <div class="ink-bird ink-bird-1">
+          <svg viewBox="0 0 40 24" fill="currentColor">
+            <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+          </svg>
+        </div>
+        <div class="ink-bird ink-bird-2">
+          <svg viewBox="0 0 40 24" fill="currentColor">
+            <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+          </svg>
+        </div>
+        <div class="ink-bird ink-bird-3">
+          <svg viewBox="0 0 40 24" fill="currentColor">
+            <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+          </svg>
+        </div>
+        <div class="ink-bird ink-bird-4">
+          <svg viewBox="0 0 40 24" fill="currentColor">
+            <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+          </svg>
+        </div>
+        <div class="ink-bird ink-bird-5">
+          <svg viewBox="0 0 40 24" fill="currentColor">
+            <path d="M 0 12 Q 10 2 20 10 Q 30 2 40 12 Q 30 6 20 11 Q 10 6 0 12 Z" />
+          </svg>
+        </div>
+      </div>
     </div>
 
     <Header currentPath={currentPath} />
 
-    <main class="flex-grow">
+    <main class="flex-grow relative z-10">
       <slot />
     </main>
 
