@@ -48,6 +48,12 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface AirportTdk {
+  title: string;
+  description: string;
+  keywords: string[];
+}
+
 export interface Airport {
   id: string;
   name: string;
@@ -63,6 +69,7 @@ export interface Airport {
   verdictSummary: string; // 评测室综合裁决
   scores: ScoreRadar; // 5维度评分雷达
   customFaqs: FaqItem[]; // 品牌专属深度FAQ
+  customTdk?: AirportTdk; // 专属定制TDK优化
 
   officialUrl?: string;
   affiliateUrl?: string;
@@ -1450,4 +1457,72 @@ export function getLowestPerGbCost(airport: Airport): number {
     return p.price / p.trafficGb;
   });
   return Math.min(...costs);
+}
+
+export function getAirportReviewTdk(airport: Airport): AirportTdk {
+  if (airport.customTdk) {
+    return airport.customTdk;
+  }
+  const lowestPerGb = getLowestPerGbCost(airport);
+  const primaryPlan = airport.plans?.[0];
+  const trafficText = primaryPlan ? `${primaryPlan.trafficGb}GB/月起` : '大流量配额';
+  const nodeText = airport.regions?.slice(0, 5).join('、') || '全球多节点';
+  const bestBenchmark = airport.benchmarks?.[0];
+  const speedText = bestBenchmark ? `${bestBenchmark.peakBandwidth}` : '500+ Mbps';
+  const pingText = bestBenchmark ? `${bestBenchmark.avgPing}` : '30ms';
+  const lossText = bestBenchmark ? `${bestBenchmark.packetLoss}` : '0%';
+
+  const title = `${airport.name}如何？2026套餐价格、流量配置、节点地区与晚高峰测速全方位专业评测 - VPNTOP`;
+
+  const description = `${airport.name}如何？好不好用？VPNTOP评测室带来2026最新深度客观评测：详解${airport.name}套餐价格(¥${airport.startingPrice}/月起)、流量规格(${trafficText}，单GB低至¥${lowestPerGb.toFixed(3)}/GB)及${nodeText}等节点分布。实测${airport.lineType}晚高峰测速带宽超${speedText}，延迟低至${pingText}且丢包率${lossText}，4K秒开并全解锁ChatGPT与Netflix流媒体，附客户端配置教程与真实选购避坑指南。`;
+
+  const keywords = [
+    airport.name,
+    `${airport.name}如何`,
+    `${airport.name}怎么样`,
+    `${airport.name}机场`,
+    `${airport.name}套餐价格`,
+    `${airport.name}流量`,
+    `${airport.name}节点`,
+    `${airport.name}测速`,
+    `${airport.name}晚高峰测速`,
+    `${airport.name}评测`,
+    `${airport.name}官网`,
+    `${airport.name}优惠码`,
+    airport.lineType,
+    'IEPL专线梯子',
+    '科学上网机场推荐',
+    '4K流媒体解锁',
+    'ChatGPT代理节点'
+  ];
+
+  return { title, description, keywords };
+}
+
+export function getAirportArchiveTdk(airport: Airport): AirportTdk {
+  const lowestPerGb = getLowestPerGbCost(airport);
+  const primaryPlan = airport.plans?.[0];
+  const trafficText = primaryPlan ? `${primaryPlan.trafficGb}GB/月起` : '大流量配额';
+  const nodeText = airport.regions?.slice(0, 5).join('、') || '全球多节点';
+  const bestBenchmark = airport.benchmarks?.[0];
+  const speedText = bestBenchmark ? `${bestBenchmark.peakBandwidth}` : '500+ Mbps';
+
+  const title = `${airport.name}怎么样？2026官方参数档案：套餐价格、流量规格、节点分布与测速信息 - VPNTOP`;
+
+  const description = `收录${airport.name}官方最新参数档案：${airport.name}采用${airport.lineType}网络架构，起步套餐价格¥${airport.startingPrice}/月起，提供${trafficText}可用流量(单GB折合¥${lowestPerGb.toFixed(3)}/GB)。覆盖${nodeText}等节点，实测峰值带宽${speedText}，支持多端订阅与晚高峰测速保障。`;
+
+  const keywords = [
+    airport.name,
+    `${airport.name}参数`,
+    `${airport.name}档案`,
+    `${airport.name}价格`,
+    `${airport.name}流量`,
+    `${airport.name}节点`,
+    `${airport.name}测速信息`,
+    airport.lineType,
+    '机场档案库',
+    '科学上网配置'
+  ];
+
+  return { title, description, keywords };
 }

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { AIRPORTS, getLowestPerGbCost } from '../../data/airports';
+import { AIRPORTS, getLowestPerGbCost, getAirportArchiveTdk } from '../../data/airports';
 
 export function getStaticPaths() {
   return AIRPORTS.map((airport) => ({
@@ -12,11 +12,13 @@ export function getStaticPaths() {
 
 const { airport } = Astro.props;
 const lowestPerGb = getLowestPerGbCost(airport);
+const tdk = getAirportArchiveTdk(airport);
 ---
 
 <BaseLayout
-  title={`${airport.name}官方资料与节点参数概览 - VPNTOP`}
-  description={`${airport.name}资料档案库：收录${airport.name}的${airport.lineType}网络规格、起步套餐价格(¥${airport.startingPrice}/月起)、单GB参考单价与协议支持。`}
+  title={tdk.title}
+  description={tdk.description}
+  keywords={tdk.keywords}
   canonical={`https://vpntop.blog/review/${airport.slug}/`}
 >
   <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

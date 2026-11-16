@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import FaqSection from '../../components/FaqSection.astro';
-import { AIRPORTS, getLowestPerGbCost } from '../../data/airports';
+import { AIRPORTS, getLowestPerGbCost, getAirportReviewTdk } from '../../data/airports';
 
 export function getStaticPaths() {
   return AIRPORTS.map((airport, index) => {
@@ -17,6 +17,7 @@ export function getStaticPaths() {
 
 const { airport, prevAirport, nextAirport, currentIndex } = Astro.props;
 const lowestPerGb = getLowestPerGbCost(airport);
+const tdk = getAirportReviewTdk(airport);
 
 // Compare candidates (other airports)
 const otherAirports = AIRPORTS.filter((a) => a.slug !== airport.slug);
@@ -43,8 +44,8 @@ const reviewFaqs = airport.customFaqs && airport.customFaqs.length > 0
 const reviewSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
-  name: airport.name,
-  description: airport.description,
+  name: tdk.title,
+  description: tdk.description,
   brand: {
     '@type': 'Brand',
     name: airport.name
@@ -71,8 +72,9 @@ const reviewSchema = {
 ---
 
 <BaseLayout
-  title={`${airport.name}深度评测2026 - 套餐价格/节点线路与优缺点分析 - VPNTOP`}
-  description={`${airport.name}怎么样？全面评测${airport.name}的${airport.lineType}网络稳定性、起步价格(¥${airport.startingPrice}/月起)、单GB成本、AI/ChatGPT与Netflix流媒体解锁表现，附客观优缺点与避坑建议。`}
+  title={tdk.title}
+  description={tdk.description}
+  keywords={tdk.keywords}
   schemas={[reviewSchema]}
 >
   <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -111,7 +113,7 @@ const reviewSchema = {
 
       <!-- H1 -->
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
-        {airport.name} 深度评测报告与套餐选购建议
+        {airport.name}如何？2026套餐价格、流量节点与晚高峰测速全方位专业评测
       </h1>
 
       <!-- One-sentence Takeaway -->
