@@ -5,6 +5,25 @@ import { getCollection } from 'astro:content';
 
 const allGuides = await getCollection('guides');
 allGuides.sort((a, b) => new Date(b.data.updateDate).getTime() - new Date(a.data.updateDate).getTime());
+
+const platformLabels: Record<string, string> = {
+  windows: 'Windows',
+  android: 'Android',
+  ios: 'iOS / iPad',
+  macos: 'macOS',
+  router: '软路由 OpenWrt',
+  tv: '电视 TV',
+  linux: 'Linux 服务器',
+  general: '通用技巧'
+};
+
+// Platforms summary
+const platformCounts = allGuides.reduce((acc, guide) => {
+  acc[guide.data.platform] = (acc[guide.data.platform] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const platforms = Object.keys(platformCounts);
 ---
 
 <BaseLayout
@@ -14,31 +33,55 @@ allGuides.sort((a, b) => new Date(b.data.updateDate).getTime() - new Date(a.data
   <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <Breadcrumb items={[{ label: '使用教程' }]} />
 
-    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-3">
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-4">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
         <span>📖 多平台教程</span>
         <span>•</span>
-        <span>持续更新</span>
+        <span>共 {allGuides.length} 篇实操指南</span>
       </div>
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
         科学上网客户端配置与使用教程中心
       </h1>
       <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
-        涵盖主流操作系统（Windows、Android、iOS、macOS 及 OpenWrt 软路由）的图文教程，详解订阅链接导入、TUN 虚拟网卡模式、规则分流与常见断连排查。
+        涵盖主流操作系统（Windows、Android、iOS、macOS 及 OpenWrt 软路由、智能电视、Linux）的保姆级图文教程，详解订阅链接导入、TUN 虚拟网卡模式、规则分流与排障。
       </p>
+
+      <!-- Platform Filter Pills -->
+      <div class="pt-2 flex flex-wrap items-center gap-2" id="platform-filter-group">
+        <button
+          type="button"
+          data-filter="all"
+          class="plat-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-brand-600 text-white shadow-xs"
+        >
+          全平台 ({allGuides.length})
+        </button>
+        {platforms.map((plat) => (
+          <button
+            type="button"
+            data-filter={plat}
+            class="plat-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-brand-50 hover:text-brand-600"
+          >
+            {platformLabels[plat] || plat} ({platformCounts[plat]})
+          </button>
+        ))}
+      </div>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Guides Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="guides-container">
       {allGuides.map((guide) => (
-        <article class="bg-white rounded-2xl border border-slate-200 p-6 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group">
+        <article
+          data-platform={guide.data.platform}
+          class="guide-card bg-white rounded-2xl border border-slate-200 p-6 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group"
+        >
           <div>
             <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
               <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold uppercase">
-                {guide.data.platform}
+                {platformLabels[guide.data.platform] || guide.data.platform}
               </span>
               <span>更新: {guide.data.updateDate}</span>
             </div>
-            <h2 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2">
+            <h2 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 leading-snug">
               <a href={`/guides/${guide.slug}/`}>
                 {guide.data.title}
               </a>
@@ -49,10 +92,10 @@ allGuides.sort((a, b) => new Date(b.data.updateDate).getTime() - new Date(a.data
           </div>
 
           <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-xs text-slate-400">阅读用时约 5 分钟</span>
+            <span class="text-xs text-slate-400">平台作者：{guide.data.author}</span>
             <a
               href={`/guides/${guide.slug}/`}
-              class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1"
+              class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
             >
               <span>阅读教程</span>
               <span>&rarr;</span>
@@ -62,4 +105,33 @@ allGuides.sort((a, b) => new Date(b.data.updateDate).getTime() - new Date(a.data
       ))}
     </div>
   </div>
+
+  <script>
+    const filterBtns = document.querySelectorAll('.plat-filter-btn');
+    const cards = document.querySelectorAll('.guide-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+
+        // Update active button styles
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-brand-600', 'text-white', 'shadow-xs');
+          b.classList.add('bg-slate-100', 'text-slate-700');
+        });
+        btn.classList.add('bg-brand-600', 'text-white', 'shadow-xs');
+        btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+        // Filter cards
+        cards.forEach(card => {
+          const plat = card.getAttribute('data-platform');
+          if (filter === 'all' || plat === filter) {
+            (card as HTMLElement).style.display = 'flex';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 </BaseLayout>

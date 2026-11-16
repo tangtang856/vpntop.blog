@@ -5,6 +5,14 @@ import { getCollection } from 'astro:content';
 
 const allBlog = await getCollection('blog');
 allBlog.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime());
+
+// Categories summary
+const categoryCounts = allBlog.reduce((acc, post) => {
+  acc[post.data.category] = (acc[post.data.category] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const categories = Object.keys(categoryCounts);
 ---
 
 <BaseLayout
@@ -14,23 +22,47 @@ allBlog.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.
   <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <Breadcrumb items={[{ label: '资讯博客' }]} />
 
-    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-3">
+    <header class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-4">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold">
         <span>📰 深度观察</span>
         <span>•</span>
-        <span>原创干货</span>
+        <span>共 {allBlog.length} 篇精选文章</span>
       </div>
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
         网络资讯与科学上网深度观察博客
       </h1>
       <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
-        立足一线技术实践与行业客观调查，带你穿透营销迷雾，搞清协议底层原理、成本结构与排障方案。
+        立足一线技术实践与行业客观调查，带你穿透营销迷雾，搞清协议底层原理、成本结构、晚高峰拥堵原因与防封排障方案。
       </p>
+
+      <!-- Category Filter Pills -->
+      <div class="pt-2 flex flex-wrap items-center gap-2" id="category-filter-group">
+        <button
+          type="button"
+          data-filter="all"
+          class="cat-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-brand-600 text-white shadow-xs"
+        >
+          全部文章 ({allBlog.length})
+        </button>
+        {categories.map((cat) => (
+          <button
+            type="button"
+            data-filter={cat}
+            class="cat-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-brand-50 hover:text-brand-600"
+          >
+            {cat} ({categoryCounts[cat]})
+          </button>
+        ))}
+      </div>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Articles Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="articles-container">
       {allBlog.map((post) => (
-        <article class="bg-white rounded-2xl border border-slate-200 p-6 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group">
+        <article
+          data-category={post.data.category}
+          class="blog-card bg-white rounded-2xl border border-slate-200 p-6 hover:border-brand-400 hover:shadow-md transition-all flex flex-col justify-between group"
+        >
           <div>
             <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
               <span class="px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 font-semibold">
@@ -38,7 +70,7 @@ allBlog.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.
               </span>
               <span>{post.data.publishDate}</span>
             </div>
-            <h2 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2">
+            <h2 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 leading-snug">
               <a href={`/blog/${post.slug}/`}>
                 {post.data.title}
               </a>
@@ -52,7 +84,7 @@ allBlog.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.
             <span class="text-xs text-slate-400">作者：{post.data.author}</span>
             <a
               href={`/blog/${post.slug}/`}
-              class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1"
+              class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
             >
               <span>阅读全文</span>
               <span>&rarr;</span>
@@ -62,4 +94,33 @@ allBlog.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.
       ))}
     </div>
   </div>
+
+  <script>
+    const filterBtns = document.querySelectorAll('.cat-filter-btn');
+    const articles = document.querySelectorAll('.blog-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+
+        // Update active button styles
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-brand-600', 'text-white', 'shadow-xs');
+          b.classList.add('bg-slate-100', 'text-slate-700');
+        });
+        btn.classList.add('bg-brand-600', 'text-white', 'shadow-xs');
+        btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+        // Filter cards
+        articles.forEach(article => {
+          const cat = article.getAttribute('data-category');
+          if (filter === 'all' || cat === filter) {
+            (article as HTMLElement).style.display = 'flex';
+          } else {
+            (article as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 </BaseLayout>
