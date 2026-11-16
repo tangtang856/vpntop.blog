@@ -73,19 +73,27 @@ if (fs.existsSync(path.join(ROOT_DIR, 'sitemap-index.xml'))) {
   fs.copyFileSync(path.join(ROOT_DIR, 'sitemap-index.xml'), path.join(ROOT_DIR, 'sitemap.xml'));
 }
 
+// Ensure dist has css/style.css and images
+const distCssDir = path.join(DIST_DIR, 'css');
+if (!fs.existsSync(distCssDir)) fs.mkdirSync(distCssDir, { recursive: true });
+fs.copyFileSync(path.join(ROOT_DIR, 'css', 'style.css'), path.join(distCssDir, 'style.css'));
+
 console.log('[deploy-static] 已完成纯 HTML 文件结构清理与全新迁移至根目录。');
 
-// 3. Process every HTML file in root
-function getAllHtml(dir: string): string[] {
+// 3. Process every HTML file in root AND dist
+function getAllHtml(dir: string, excludeDist = false): string[] {
   let res: string[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'dist' || entry.name === '.astro') {
+    if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === '.astro') {
+      continue;
+    }
+    if (excludeDist && entry.name === 'dist') {
       continue;
     }
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      res = res.concat(getAllHtml(full));
+      res = res.concat(getAllHtml(full, excludeDist));
     } else if (entry.name.endsWith('.html')) {
       res.push(full);
     }
@@ -93,33 +101,40 @@ function getAllHtml(dir: string): string[] {
   return res;
 }
 
-const htmlFiles = getAllHtml(ROOT_DIR);
-console.log(`[deploy-static] 正在注入原生 CSS、标准相对路径与无 CORS 脚本: ${htmlFiles.length} 个页面...`);
+function processHtmlFiles(files: string[], baseDir: string) {
+  for (const file of files) {
+    const relPath = path.relative(baseDir, file).replace(/\\/g, '/');
+    const depth = relPath.split('/').length - 1;
+    const rootPrefix = depth === 0 ? './' : '../'.repeat(depth);
 
-for (const file of htmlFiles) {
-  const relPath = path.relative(ROOT_DIR, file).replace(/\\/g, '/');
-  const depth = relPath.split('/').length - 1;
-  const rootPrefix = depth === 0 ? './' : '../'.repeat(depth);
+    let html = fs.readFileSync(file, 'utf-8');
 
-  let html = fs.readFileSync(file, 'utf-8');
+    // Replace stylesheet with css/style.css
+    html = html.replace(/<link\b[^>]*?\brel="stylesheet"[^>]*?>/gi, () => {
+      return `<link rel="stylesheet" href="${rootPrefix}css/style.css">`;
+    });
 
-  // Replace stylesheet with css/style.css
-  html = html.replace(/<link\b[^>]*?\brel="stylesheet"[^>]*?>/gi, () => {
-    return `<link rel="stylesheet" href="${rootPrefix}css/style.css">`;
-  });
+    // Replace favicon with images/favicon.svg
+    html = html.replace(/<link\b[^>]*?\brel="icon"[^>]*?>/gi, () => {
+      return `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon.svg">`;
+    });
 
-  // Replace favicon with images/favicon.svg
-  html = html.replace(/<link\b[^>]*?\brel="icon"[^>]*?>/gi, () => {
-    return `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon.svg">`;
-  });
+    // Convert <script type="module"> to plain <script> for 100% file:// compatibility
+    html = html.replace(/<script type="module">/gi, '<script>');
 
-  // Convert <script type="module"> to plain <script> for 100% file:// compatibility
-  html = html.replace(/<script type="module">/gi, '<script>');
+    // Ensure generator tag reflects native static HTML
+    html = html.replace(/<meta name="generator"[^>]*?>/gi, '<meta name="generator" content="Vanilla HTML5 + Native CSS">');
 
-  // Ensure generator tag reflects native static HTML
-  html = html.replace(/<meta name="generator"[^>]*?>/gi, '<meta name="generator" content="Vanilla HTML5 + Native CSS">');
-
-  fs.writeFileSync(file, html, 'utf-8');
+    fs.writeFileSync(file, html, 'utf-8');
+  }
 }
 
-console.log(`[deploy-static] 全部 ${htmlFiles.length} 个页面已完美链接至原生 CSS [css/style.css]！`);
+const rootHtmlFiles = getAllHtml(ROOT_DIR, true);
+console.log(`[deploy-static] 正在注入根目录原生 CSS 与标准相对路径: ${rootHtmlFiles.length} 个页面...`);
+processHtmlFiles(rootHtmlFiles, ROOT_DIR);
+
+const distHtmlFiles = getAllHtml(DIST_DIR, false);
+console.log(`[deploy-static] 正在注入 dist 原生 CSS 与标准相对路径: ${distHtmlFiles.length} 个页面...`);
+processHtmlFiles(distHtmlFiles, DIST_DIR);
+
+console.log(`[deploy-static] 全部静态页面已完美链接至原生 CSS [css/style.css]！`);

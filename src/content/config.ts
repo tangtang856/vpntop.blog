@@ -8,7 +8,7 @@ const guidesCollection = defineCollection({
     description: z.string(),
     publishDate: z.string(),
     updateDate: z.string(),
-    platform: z.enum(['windows', 'android', 'ios', 'macos', 'router', 'general']),
+    platform: z.enum(['windows', 'android', 'ios', 'macos', 'router', 'general', 'linux', 'tv']),
     author: z.string().default('VPNTOP 编辑部'),
     tags: z.array(z.string()).default([]),
     recommendedAirports: z.array(z.string()).default([]),
