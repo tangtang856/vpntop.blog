@@ -123,8 +123,8 @@ function processHtmlFiles(files: string[], baseDir: string) {
     html = html.replace(/<link\b[^>]*?\brel="(icon|shortcut icon|apple-touch-icon)"[^>]*?>/gi, '');
     html = html.replace('</head>', `<link rel="icon" type="image/svg+xml" href="${rootPrefix}images/favicon-v2.svg"><link rel="shortcut icon" href="${rootPrefix}images/favicon-v2.svg"><link rel="apple-touch-icon" href="${rootPrefix}images/favicon-v2.svg"></head>`);
 
-    // Convert <script type="module"> to plain <script> for 100% file:// compatibility
-    html = html.replace(/<script type="module">/gi, '<script>');
+    // Convert <script type="module" ...> to plain <script ...> for 100% file:// compatibility
+    html = html.replace(/<script\b([^>]*?)\btype="module"([^>]*?)>/gi, '<script$1$2>');
 
     // Ensure generator tag reflects native static HTML
     html = html.replace(/<meta name="generator"[^>]*?>/gi, '<meta name="generator" content="Vanilla HTML5 + Native CSS">');

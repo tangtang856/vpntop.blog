@@ -120,19 +120,20 @@ const { currentPath = '/' } = Astro.props;
         </a>
 
         <!-- Contact Popover Container -->
-        <div class="relative" id="contact-popover-container">
+        <div class="relative" id="contact-popover-container" style="position: relative; display: inline-block;">
           <button
             type="button"
             id="contact-btn"
             aria-expanded="false"
             aria-haspopup="true"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-brand-600 to-sky-600 hover:from-brand-700 hover:to-sky-700 rounded-full shadow-sm hover:shadow transition-all group"
+            class="btn-contact-nav inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white rounded-full shadow-sm hover:shadow transition-all group"
+            style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; font-size: 12px; font-weight: 700; color: #ffffff !important; background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%) !important; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.32); cursor: pointer; text-decoration: none; user-select: none; transition: all 0.2s ease;"
           >
-            <svg class="w-3.5 h-3.5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg style="width: 14px; height: 14px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            <span>联络我们</span>
-            <svg class="w-3 h-3 text-white/80 transition-transform duration-200" id="contact-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span style="color: #ffffff !important; font-weight: 700; font-size: 12px; line-height: 1;">联络我们</span>
+            <svg id="contact-arrow" style="width: 12px; height: 12px; flex-shrink: 0; transition: transform 0.2s ease;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -140,66 +141,68 @@ const { currentPath = '/' } = Astro.props;
           <!-- Contact Popover Panel -->
           <div
             id="contact-panel"
-            class="hidden absolute right-0 top-full mt-2 w-[340px] sm:w-[380px] bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-5 z-50 text-left transition-all duration-200 ring-1 ring-black/5"
+            class="contact-popover-panel"
+            style="display: none; position: absolute; right: 0; top: calc(100% + 8px); width: 360px; max-width: calc(100vw - 32px); background: #ffffff !important; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.22), 0 0 1px 1px rgba(0, 0, 0, 0.06); padding: 18px; z-index: 99999; text-align: left;"
             role="dialog"
             aria-label="联系我们方式详情"
           >
             <!-- Panel Header -->
-            <div class="border-b border-slate-100 pb-3 mb-4">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <h3 class="text-sm font-bold text-slate-900">官方商务与技术支持</h3>
+            <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
+                  <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;">官方商务与技术支持</h3>
                 </div>
-                <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium border border-emerald-200">
+                <span style="font-size: 11px; padding: 2px 8px; border-radius: 9999px; background: #ecfdf5; color: #047857; font-weight: 600; border: 1px solid #a7f3d0;">
                   站长在线响应
                 </span>
               </div>
-              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+              <p style="font-size: 12px; color: #64748b; margin-top: 6px; line-height: 1.5;">
                 欢迎提交机场评测送测、商业合作洽谈、测速数据复核或科学上网技术咨询。
               </p>
             </div>
 
             <!-- Contact Channels -->
-            <div class="space-y-3">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
               <!-- Telegram Channel -->
-              <div class="p-3.5 rounded-xl bg-slate-50 hover:bg-sky-50/60 border border-slate-200/80 hover:border-sky-300 transition-all group/item">
-                <div class="flex items-start justify-between gap-3">
-                  <div class="flex items-start gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-[#229ED9] text-white flex items-center justify-center shrink-0 shadow-sm">
-                      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <div style="padding: 12px 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+                  <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background-color: #229ED9; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                      <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
                         <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/>
                       </svg>
                     </div>
                     <div>
-                      <div class="text-xs font-semibold text-slate-500">即时沟通 · 官方 Telegram</div>
-                      <div class="text-sm font-bold text-slate-900 group-hover/item:text-[#229ED9] transition-colors flex items-center gap-1.5 mt-0.5">
+                      <div style="font-size: 11px; font-weight: 600; color: #64748b;">即时沟通 · 官方 Telegram</div>
+                      <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-top: 2px;">
                         <span>@xintangtang</span>
                       </div>
-                      <div class="text-[11px] text-slate-500 mt-0.5">
+                      <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
                         商务合作洽谈 / 紧急测速复核 / 节点报障
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center gap-2">
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(226, 232, 240, 0.8); display: flex; align-items: center; gap: 8px;">
                   <a
                     href="https://t.me/xintangtang"
                     target="_blank"
                     rel="noopener noreferrer nofollow"
-                    class="flex-1 py-1.5 px-3 rounded-lg bg-[#229ED9] hover:bg-[#1d8bc0] text-white font-medium text-xs text-center transition-colors shadow-sm flex items-center justify-center gap-1"
+                    style="flex: 1; padding: 6px 12px; border-radius: 8px; background-color: #229ED9; color: #ffffff !important; font-weight: 600; font-size: 12px; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
                   >
                     <span>打开 Telegram 私聊</span>
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                   <button
                     type="button"
-                    class="copy-contact-btn py-1.5 px-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200 transition-colors shrink-0"
+                    class="copy-contact-btn"
                     data-copy="@xintangtang"
                     title="复制 Telegram 用户名"
+                    style="padding: 6px 10px; border-radius: 8px; background-color: #ffffff; color: #334155; font-size: 12px; font-weight: 600; border: 1px solid #cbd5e1; cursor: pointer; flex-shrink: 0; transition: all 0.2s;"
                   >
                     复制 ID
                   </button>
@@ -207,41 +210,42 @@ const { currentPath = '/' } = Astro.props;
               </div>
 
               <!-- Gmail Channel -->
-              <div class="p-3.5 rounded-xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200/80 hover:border-rose-300 transition-all group/item">
-                <div class="flex items-start justify-between gap-3">
-                  <div class="flex items-start gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <div style="padding: 12px 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+                  <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background-color: #e11d48; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                      <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
                         <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.545l8.073-6.052C21.69 2.28 24 3.434 24 5.457z"/>
                       </svg>
                     </div>
                     <div>
-                      <div class="text-xs font-semibold text-slate-500">官方邮箱 · Google Mail</div>
-                      <div class="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-rose-600 transition-colors mt-0.5 break-all">
+                      <div style="font-size: 11px; font-weight: 600; color: #64748b;">官方邮箱 · Google Mail</div>
+                      <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 2px; word-break: break-all;">
                         xintangtang888@gmail.com
                       </div>
-                      <div class="text-[11px] text-slate-500 mt-0.5">
+                      <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
                         深度投稿方案 / 商务公函 / 评测纠错
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center gap-2">
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(226, 232, 240, 0.8); display: flex; align-items: center; gap: 8px;">
                   <a
                     href="mailto:xintangtang888@gmail.com"
-                    class="flex-1 py-1.5 px-3 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-medium text-xs text-center transition-colors shadow-sm flex items-center justify-center gap-1"
+                    style="flex: 1; padding: 6px 12px; border-radius: 8px; background-color: #e11d48; color: #ffffff !important; font-weight: 600; font-size: 12px; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
                   >
                     <span>发送 Gmail 邮件</span>
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </a>
                   <button
                     type="button"
-                    class="copy-contact-btn py-1.5 px-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200 transition-colors shrink-0"
+                    class="copy-contact-btn"
                     data-copy="xintangtang888@gmail.com"
                     title="复制 Gmail 邮箱地址"
+                    style="padding: 6px 10px; border-radius: 8px; background-color: #ffffff; color: #334155; font-size: 12px; font-weight: 600; border: 1px solid #cbd5e1; cursor: pointer; flex-shrink: 0; transition: all 0.2s;"
                   >
                     复制邮箱
                   </button>
@@ -250,9 +254,9 @@ const { currentPath = '/' } = Astro.props;
             </div>
 
             <!-- Footer Service Promise -->
-            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-              <span class="flex items-center gap-1">
-                <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #94a3b8;">
+              <span style="display: flex; align-items: center; gap: 4px;">
+                <svg style="width: 14px; height: 14px; color: #10b981;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 工作日 2 小时内快速响应
@@ -350,74 +354,97 @@ const { currentPath = '/' } = Astro.props;
   </div>
 </header>
 
-<script>
-  // Mobile menu toggle
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const iconBars = document.getElementById('menu-icon-bars');
-  const iconClose = document.getElementById('menu-icon-close');
+<script is:inline>
+  (function() {
+    function initHeaderInteractivity() {
+      // Mobile menu toggle
+      var btn = document.getElementById('mobile-menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      var iconBars = document.getElementById('menu-icon-bars');
+      var iconClose = document.getElementById('menu-icon-close');
 
-  if (btn && menu) {
-    btn.addEventListener('click', () => {
-      const isExpanded = menu.classList.toggle('hidden');
-      if (iconBars && iconClose) {
-        iconBars.classList.toggle('hidden', !isExpanded);
-        iconClose.classList.toggle('hidden', isExpanded);
+      if (btn && menu) {
+        btn.addEventListener('click', function() {
+          var isHidden = menu.classList.toggle('hidden');
+          if (iconBars && iconClose) {
+            iconBars.classList.toggle('hidden', !isHidden);
+            iconClose.classList.toggle('hidden', isHidden);
+          }
+        });
       }
-    });
-  }
 
-  // Contact Us Popover logic
-  const contactBtn = document.getElementById('contact-btn');
-  const contactPanel = document.getElementById('contact-panel');
-  const contactArrow = document.getElementById('contact-arrow');
-  const contactContainer = document.getElementById('contact-popover-container');
+      // Contact Us Popover logic
+      var contactBtn = document.getElementById('contact-btn');
+      var contactPanel = document.getElementById('contact-panel');
+      var contactArrow = document.getElementById('contact-arrow');
+      var contactContainer = document.getElementById('contact-popover-container');
 
-  if (contactBtn && contactPanel) {
-    contactBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isHidden = contactPanel.classList.toggle('hidden');
-      contactBtn.setAttribute('aria-expanded', String(!isHidden));
-      if (contactArrow) {
-        contactArrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+      if (contactBtn && contactPanel) {
+        function toggleContactPanel(forceOpen) {
+          var isCurrentlyOpen = contactPanel.style.display === 'block';
+          var nextOpen = typeof forceOpen === 'boolean' ? forceOpen : !isCurrentlyOpen;
+          contactPanel.style.display = nextOpen ? 'block' : 'none';
+          contactBtn.setAttribute('aria-expanded', String(nextOpen));
+          if (contactArrow) {
+            contactArrow.style.transform = nextOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+          }
+        }
+
+        contactBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleContactPanel();
+        });
+
+        document.addEventListener('click', function(e) {
+          if (contactContainer && !contactContainer.contains(e.target)) {
+            toggleContactPanel(false);
+          }
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            toggleContactPanel(false);
+          }
+        });
       }
-    });
 
-    document.addEventListener('click', (e) => {
-      if (contactContainer && !contactContainer.contains(e.target as Node)) {
-        contactPanel.classList.add('hidden');
-        contactBtn.setAttribute('aria-expanded', 'false');
-        if (contactArrow) contactArrow.style.transform = 'rotate(0deg)';
-      }
-    });
+      // Copy contact info to clipboard
+      var copyBtns = document.querySelectorAll('.copy-contact-btn');
+      copyBtns.forEach(function(copyBtn) {
+        copyBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var text = copyBtn.getAttribute('data-copy');
+          if (!text) return;
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        contactPanel.classList.add('hidden');
-        contactBtn.setAttribute('aria-expanded', 'false');
-        if (contactArrow) contactArrow.style.transform = 'rotate(0deg)';
-      }
-    });
-  }
+          function handleCopied() {
+            var orig = copyBtn.innerText;
+            copyBtn.innerText = '已复制 ✓';
+            copyBtn.style.backgroundColor = '#ecfdf5';
+            copyBtn.style.color = '#047857';
+            copyBtn.style.borderColor = '#6ee7b7';
+            setTimeout(function() {
+              copyBtn.innerText = orig;
+              copyBtn.style.backgroundColor = '';
+              copyBtn.style.color = '';
+              copyBtn.style.borderColor = '';
+            }, 2000);
+          }
 
-  // Copy contact info to clipboard
-  document.querySelectorAll<HTMLButtonElement>('.copy-contact-btn').forEach((copyBtn) => {
-    copyBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const text = copyBtn.getAttribute('data-copy');
-      if (!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = '已复制 ✓';
-        copyBtn.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
-        setTimeout(() => {
-          copyBtn.textContent = originalText;
-          copyBtn.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
-        }, 2000);
-      } catch (err) {
-        prompt('请手动复制联系方式：', text);
-      }
-    });
-  });
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(handleCopied).catch(function() {
+              prompt('请手动复制联系方式：', text);
+            });
+          } else {
+            prompt('请手动复制联系方式：', text);
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeaderInteractivity);
+    } else {
+      initHeaderInteractivity();
+    }
+  })();
 </script>
